@@ -27,10 +27,82 @@ Public Class Volume
 
     End Function
 
-    Public Function SetVolume(volume As Integer) As Boolean
+    Public Function SetVolume(ByRef swDimension As Dimension, ByVal targetVolume As Double, swModelDoc As ModelDoc2) As Boolean
+        'Permet de modifier une côtes en paramètre pour atteindre le volume ciblé
+
+        Dim targetVolumeM3 As Double
+        Dim currentVolumeM3 As Double
+        Dim increment As Double
+        Dim previousDown As Boolean 'boolean qui permet de savoir si le target est entre deux valeur déjà cherché
+        Dim exitWhile As Boolean
+        Dim LoadingForm As New LoadingForm
+        Dim currentDim As Double
+
+        previousDown = True
+        exitWhile = False
+        increment = 300
+        targetVolumeM3 = targetVolume / 1000
+
+        currentDim = swDimension.Value
+
+        LoadingForm.Show()
 
 
+        While Not (exitWhile)
 
+            currentVolumeM3 = GetLitre() / 1000
+
+            If currentVolumeM3 < 0 Then
+
+                MsgBox("Erreur de récupération du volume")
+                exitWhile = True
+
+            ElseIf Math.Abs(currentVolumeM3 - targetVolumeM3) < 0.05 Then
+
+                exitWhile = True
+
+            ElseIf (currentVolumeM3 > targetVolumeM3 And previousDown) Then
+
+                previousDown = True
+                currentDim -= increment
+                swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
+
+            ElseIf (currentVolumeM3 < targetVolumeM3 And Not previousDown) Then
+
+                previousDown = False
+                currentDim += increment
+                swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
+
+            ElseIf (currentVolumeM3 > targetVolumeM3) Then
+
+                previousDown = True
+                increment /= 2
+                currentDim -= increment
+                swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
+
+            ElseIf (currentVolumeM3 < targetVolumeM3) Then
+                previousDown = False
+                increment /= 2
+                currentDim += increment
+                swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
+
+            ElseIf (currentDim <= 0 Or currentDim > 3000) Then
+
+                exitWhile = True
+                ErrorsHandling.AddError("Valeur de la dimensions pour calcul du volume incohérente.")
+
+            End If
+
+            swModelDoc.Extension.Rebuild(0)
+
+        End While
+
+
+        swModelDoc.Extension.ForceRebuildAll()
+
+        LoadingForm.Hide()
+
+        Return True
 
     End Function
 

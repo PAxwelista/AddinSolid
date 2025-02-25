@@ -144,9 +144,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Classes\ArboPositionHandling.vb" />
+    <Compile Include="src\Classes\Caisse.vb" />
     <Compile Include="src\Classes\Configurator.vb" />
     <Compile Include="src\Classes\Copy.vb" />
     <Compile Include="src\Classes\CopyPaste.vb" />
+    <Compile Include="src\Classes\DI.vb" />
     <Compile Include="src\Classes\Equipment.vb" />
     <Compile Include="src\Classes\EquipmentCode.vb" />
     <Compile Include="src\Classes\EquipmentCodes.vb" />
@@ -155,27 +157,14 @@
     <Compile Include="src\Entry\AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\UserForms\ChoixGraissageBlocEqui.Designer.vb">
-      <DependentUpon>ChoixGraissageBlocEqui.vb</DependentUpon>
+    <Compile Include="src\UserForms\ChoixMachineTuyauGraissage.Designer.vb">
+      <DependentUpon>ChoixMachineTuyauGraissage.vb</DependentUpon>
     </Compile>
-    <Compile Include="src\UserForms\ChoixGraissageBlocEqui.vb">
+    <Compile Include="src\UserForms\ChoixMachineTuyauGraissage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\UserForms\ChoixMachine.Designer.vb">
-      <DependentUpon>ChoixMachine.vb</DependentUpon>
-    </Compile>
-    <Compile Include="src\UserForms\ChoixMachine.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\CopieInfos.vb" />
     <Compile Include="src\Entry\EventHandling.vb">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\UserForms\FenetreAccueil.Designer.vb">
-      <DependentUpon>FenetreAccueil.vb</DependentUpon>
-    </Compile>
-    <Compile Include="src\UserForms\FenetreAccueil.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UserForms\FenetreChoixCopier.Designer.vb">
       <DependentUpon>FenetreChoixCopier.vb</DependentUpon>
@@ -183,7 +172,7 @@
     <Compile Include="src\UserForms\FenetreChoixCopier.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\GetAttachesInfos.vb" />
+    <Compile Include="src\Classes\AttachesInfos.vb" />
     <Compile Include="src\UserForms\InfosGodetsDI.Designer.vb">
       <DependentUpon>InfosGodetsDI.vb</DependentUpon>
     </Compile>
@@ -196,21 +185,14 @@
     <Compile Include="src\UserForms\LoadingForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ParamGodet.vb" />
     <Compile Include="src\Entry\SwAddin.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Utils.vb" />
     <Compile Include="src\ViewsTransport.vb" />
     <Compile Include="src\Classes\Volume.vb" />
-    <EmbeddedResource Include="src\UserForms\ChoixGraissageBlocEqui.resx">
-      <DependentUpon>ChoixGraissageBlocEqui.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\UserForms\ChoixMachine.resx">
-      <DependentUpon>ChoixMachine.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\UserForms\FenetreAccueil.resx">
-      <DependentUpon>FenetreAccueil.vb</DependentUpon>
+    <EmbeddedResource Include="src\UserForms\ChoixMachineTuyauGraissage.resx">
+      <DependentUpon>ChoixMachineTuyauGraissage.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UserForms\FenetreChoixCopier.resx">
       <DependentUpon>FenetreChoixCopier.vb</DependentUpon>

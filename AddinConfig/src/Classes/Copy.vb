@@ -11,7 +11,7 @@ Public Class Copy
 
         Dim FenetreChoixCopier As New FenetreChoixCopier
         Dim codeGodet As String
-        Dim Volume As New Volume(SearchCModelDocByProp("Description", "Volume"))
+        Dim Volume As New Volume(SearchModelDocByProp(_swModelDoc, "Description", "Volume"))
         Dim equipmentCode As EquipmentCode
         Dim code As Integer
         Dim codeValue As String
@@ -61,7 +61,7 @@ Public Class Copy
 
     End Function
 
-    Function SaveViaSketch(ByVal valeurPrimaire As String) As String
+    Private Function SaveViaSketch(ByVal valeurPrimaire As String) As String
 
         Dim swDimension As Dimension
         swDimension = _swModelDoc.Parameter(valeurPrimaire)
@@ -78,13 +78,14 @@ Public Class Copy
         End If
 
     End Function
-    Function SaveConfig(ByVal CompPos As String) As String
+    Private Function SaveConfig(ByVal CompPos As String) As String
 
         Dim swComp As Component2
 
         If Not IsNumeric(CompPos) Then
 
             ErrorsHandling.AddError("La pièce numéro """ + CompPos + """" + " n'est pas un nombre")
+            Return "-"
             Exit Function
 
         End If
@@ -103,7 +104,7 @@ Public Class Copy
         End If
 
     End Function
-    Function SaveState(ByVal CompPos As String) As String
+    Private Function SaveState(ByVal CompPos As String) As String
 
         Dim swComp As Component2
 
@@ -121,7 +122,7 @@ Public Class Copy
         End If
 
     End Function
-    Function SaveStateFeat(ByVal nomFeat As String) As String
+    Private Function SaveStateFeat(ByVal nomFeat As String) As String
 
         Dim swFeat As Feature
 

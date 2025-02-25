@@ -68,9 +68,9 @@
         deflecteur = CheckBoxDeflecteur.Checked
         caisson = CheckBoxCaisson.Checked
         caissonRallonge = CheckBoxCR.Checked
-        volume = TextBoxVolume.Text
-        angDos = TextBoxAngDos.Text
-        angPos = TextBoxAngPos.Text
+        If IsNumeric(TextBoxVolume.Text) Then volume = TextBoxVolume.Text
+        If IsNumeric(TextBoxAngDos.Text) Then angDos = TextBoxAngDos.Text
+        If IsNumeric(TextBoxAngPos.Text) Then angPos = TextBoxAngPos.Text
         Select Case largeur
             Case "2400", "2500"
                 entraxeButee = 1500
@@ -86,4 +86,6 @@
 
         Hide()
     End Sub
+
+
 End Class

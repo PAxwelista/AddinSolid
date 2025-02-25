@@ -11,56 +11,7 @@ Public Class CopyPaste
     End Sub
 
 
-    Protected Function SearchCModelDocByProp(ByVal prop As String, ByVal value As String) As ModelDoc2
 
-        Dim swAss As AssemblyDoc
-        Dim swComp As Component2
-        Dim swComps() As Object
-        Dim swCompModelDoc As ModelDoc2
-        Dim swCustomInfos As CustomPropertyManager
-
-        Dim tampon As Object
-
-        Dim descriptionBuffer As String
-
-        If _swModelDoc.GetType <> 2 Or _swModelDoc Is Nothing Then
-
-            Return Nothing
-            Exit Function
-
-        End If
-
-        swAss = _swModelDoc
-
-        swComps = swAss.GetComponents(False)
-
-        For Each tampon In swComps
-
-            swComp = tampon
-
-            swCompModelDoc = swComp.GetModelDoc2
-
-            If swCompModelDoc IsNot Nothing Then
-
-                swCustomInfos = swCompModelDoc.Extension.CustomPropertyManager(swCompModelDoc.GetActiveConfiguration.Name)
-
-                swCustomInfos.Get6(prop, False, "", descriptionBuffer, False, False)
-
-                If descriptionBuffer = value Then
-
-                    Return swComp.GetModelDoc2
-
-                    Exit Function
-
-                End If
-
-            End If
-
-        Next
-
-        Return Nothing
-
-    End Function
 
 
     Function SearchComponent(ByVal CompPos As Integer) As Component2

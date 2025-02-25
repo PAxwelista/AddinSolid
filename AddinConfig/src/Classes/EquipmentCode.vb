@@ -1,9 +1,9 @@
 ﻿
 Public Class EquipmentCode
 
-    Private _type As String
+    Private ReadOnly _type As String
 
-    Private _codes() As Tuple(Of Integer, String)
+    Private ReadOnly _codes() As Tuple(Of Integer, String)
 
     Public Sub New(type As String, codes As Tuple(Of Integer, String)())
 

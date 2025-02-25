@@ -464,7 +464,7 @@ Public Class SwAddin
 
         Dim time As New BiblioIEV.IEVTimer
 
-        Dim configurator As New Configurator(SwApp.ActiveDoc)
+        Dim configurator As New Configurator(SwApp)
 
         time.StartChrono()
 

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ChoixMachine
+Partial Class ChoixMachineTuyauGraissage
     Inherits System.Windows.Forms.Form
 
     'Form remplace la méthode Dispose pour nettoyer la liste des composants.
@@ -30,6 +30,12 @@ Partial Class ChoixMachine
         Me.ListBoxVersion = New System.Windows.Forms.ListBox()
         Me.CheckBoxAD = New System.Windows.Forms.CheckBox()
         Me.CommandButtonOk = New System.Windows.Forms.Button()
+        Me.CheckBoxBlocEqui = New System.Windows.Forms.CheckBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Marque
@@ -65,7 +71,7 @@ Partial Class ChoixMachine
         Me.ListBoxMarque.Location = New System.Drawing.Point(12, 55)
         Me.ListBoxMarque.Name = "ListBoxMarque"
         Me.ListBoxMarque.Size = New System.Drawing.Size(120, 95)
-        Me.ListBoxMarque.TabIndex = 3
+        Me.ListBoxMarque.TabIndex = 0
         '
         'ListBoxModele
         '
@@ -73,7 +79,7 @@ Partial Class ChoixMachine
         Me.ListBoxModele.Location = New System.Drawing.Point(178, 55)
         Me.ListBoxModele.Name = "ListBoxModele"
         Me.ListBoxModele.Size = New System.Drawing.Size(120, 95)
-        Me.ListBoxModele.TabIndex = 4
+        Me.ListBoxModele.TabIndex = 1
         '
         'ListBoxVersion
         '
@@ -81,33 +87,89 @@ Partial Class ChoixMachine
         Me.ListBoxVersion.Location = New System.Drawing.Point(344, 55)
         Me.ListBoxVersion.Name = "ListBoxVersion"
         Me.ListBoxVersion.Size = New System.Drawing.Size(120, 95)
-        Me.ListBoxVersion.TabIndex = 5
+        Me.ListBoxVersion.TabIndex = 2
         '
         'CheckBoxAD
         '
         Me.CheckBoxAD.AutoSize = True
-        Me.CheckBoxAD.Location = New System.Drawing.Point(45, 393)
+        Me.CheckBoxAD.Location = New System.Drawing.Point(12, 236)
         Me.CheckBoxAD.Name = "CheckBoxAD"
         Me.CheckBoxAD.Size = New System.Drawing.Size(98, 17)
-        Me.CheckBoxAD.TabIndex = 6
-        Me.CheckBoxAD.Text = "Attahce directe"
+        Me.CheckBoxAD.TabIndex = 3
+        Me.CheckBoxAD.Text = "Attache directe"
         Me.CheckBoxAD.UseVisualStyleBackColor = True
         '
         'CommandButtonOk
         '
-        Me.CommandButtonOk.Location = New System.Drawing.Point(330, 393)
+        Me.CommandButtonOk.Location = New System.Drawing.Point(533, 230)
         Me.CommandButtonOk.Name = "CommandButtonOk"
         Me.CommandButtonOk.Size = New System.Drawing.Size(75, 23)
-        Me.CommandButtonOk.TabIndex = 7
+        Me.CommandButtonOk.TabIndex = 8
         Me.CommandButtonOk.Text = "OK"
         Me.CommandButtonOk.UseVisualStyleBackColor = True
         '
-        'ChoixMachine
+        'CheckBoxBlocEqui
+        '
+        Me.CheckBoxBlocEqui.AutoSize = True
+        Me.CheckBoxBlocEqui.Location = New System.Drawing.Point(533, 183)
+        Me.CheckBoxBlocEqui.Name = "CheckBoxBlocEqui"
+        Me.CheckBoxBlocEqui.Size = New System.Drawing.Size(98, 17)
+        Me.CheckBoxBlocEqui.TabIndex = 7
+        Me.CheckBoxBlocEqui.Text = "Bloc équilibreur"
+        Me.CheckBoxBlocEqui.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RadioButton3)
+        Me.GroupBox1.Controls.Add(Me.RadioButton2)
+        Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Location = New System.Drawing.Point(533, 50)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(135, 100)
+        Me.GroupBox1.TabIndex = 12
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Graissage"
+        '
+        'RadioButton3
+        '
+        Me.RadioButton3.AutoSize = True
+        Me.RadioButton3.Location = New System.Drawing.Point(52, 65)
+        Me.RadioButton3.Name = "RadioButton3"
+        Me.RadioButton3.Size = New System.Drawing.Size(54, 17)
+        Me.RadioButton3.TabIndex = 6
+        Me.RadioButton3.Text = "TWIN"
+        Me.RadioButton3.UseVisualStyleBackColor = True
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(52, 42)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(55, 17)
+        Me.RadioButton2.TabIndex = 5
+        Me.RadioButton2.Text = "TRAD"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Checked = True
+        Me.RadioButton1.Location = New System.Drawing.Point(52, 19)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(49, 17)
+        Me.RadioButton1.TabIndex = 4
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "Sans"
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'ChoixMachineTuyauGraissage
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(697, 281)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.CommandButtonOk)
+        Me.Controls.Add(Me.CheckBoxBlocEqui)
         Me.Controls.Add(Me.CheckBoxAD)
         Me.Controls.Add(Me.ListBoxVersion)
         Me.Controls.Add(Me.ListBoxModele)
@@ -115,8 +177,10 @@ Partial Class ChoixMachine
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Marque)
-        Me.Name = "ChoixMachine"
+        Me.Name = "ChoixMachineTuyauGraissage"
         Me.Text = "ChoixMachine"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -130,4 +194,9 @@ Partial Class ChoixMachine
     Friend WithEvents ListBoxVersion As Windows.Forms.ListBox
     Friend WithEvents CheckBoxAD As Windows.Forms.CheckBox
     Friend WithEvents CommandButtonOk As Windows.Forms.Button
+    Friend WithEvents CheckBoxBlocEqui As Windows.Forms.CheckBox
+    Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
+    Friend WithEvents RadioButton3 As Windows.Forms.RadioButton
+    Friend WithEvents RadioButton2 As Windows.Forms.RadioButton
+    Friend WithEvents RadioButton1 As Windows.Forms.RadioButton
 End Class

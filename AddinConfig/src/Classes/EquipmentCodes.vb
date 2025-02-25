@@ -1,7 +1,7 @@
 ﻿Public Class EquipmentCodes
 
-    Dim _typesGodet() As EquipmentCode
-    Dim _typeGodet As EquipmentCode
+    Private ReadOnly _typesGodet() As EquipmentCode
+    Private _typeGodet As EquipmentCode
 
     Public Sub New()
 

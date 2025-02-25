@@ -2,7 +2,7 @@
 Public Class ArboPositionHandling
 
 
-    Private _swModelDoc As ModelDoc2
+    Private ReadOnly _swModelDoc As ModelDoc2
 
     Public Sub New(swModelDoc As ModelDoc2)
 

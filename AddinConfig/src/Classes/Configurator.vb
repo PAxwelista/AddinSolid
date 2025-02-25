@@ -2,45 +2,46 @@
 
 Public Class Configurator
 
-    Private _swModelDoc As ModelDoc2
+    Private ReadOnly _swApp As SldWorks
 
-    Public Sub New(swModelDoc As ModelDoc2)
+    Public Sub New(swApp As SldWorks)
 
-        _swModelDoc = swModelDoc
+        _swApp = swApp
 
     End Sub
 
-    Public Function StartConfig() As Boolean
+    Public Sub StartConfig()
+
+        Dim nameGodet As String = Split(_swApp.ActiveDoc.GetTitle, ".")(0)
+
+        If Left(nameGodet, 2) = "GC" And (Len(nameGodet) = 7 Or Len(nameGodet) = 13) Then
 
 
-        MsgBox("we are here")
+            Call StartFullBucket()
 
-        'Dim FenetreAccueil As New FenetreAccueil
+        Else
 
-        'Dim codeGodet As String
+            Call StartOnlyBucket()
 
-        'Dim typesGodet As String()
-        'typesGodet = {"test, CodeDI_201"}
+        End If
 
+    End Sub
 
+    Private Sub StartOnlyBucket()
 
+        Dim caisse As New Caisse(_swApp.ActiveDoc, _swApp.ActiveDoc.Parameter("D1@Profil godet"))
 
-        'Si c'est un godet entier on ouvre la caisse pour pouvoir lancer les paramètres
-        'nameGodet = Split(_swModelDoc.GetTitle, ".")(0) 'Récupére sans l'extension
-        'If Left(nameGodet, 2) = "GC" And (Len(nameGodet) = 7 Or Len(nameGodet) = 13) Then 'normalement mettre 14 pour la version finale et 20 pour le godet master
+        caisse.SetBucket()
 
-        ' Call FullParamGodet(swApp, typesGodet, swModelDoc)
+    End Sub
 
-        ' Else
+    Private Sub StartFullBucket()
 
-        'Call ParamGodet.ParamGodet(typesGodet, swModelDoc)
+        Dim godetDI As New DI(_swApp)
 
-        'End If
+        godetDI.ChangeEquipment()
 
-    End Function
-
-
-
+    End Sub
 
 
 End Class

@@ -45,9 +45,7 @@ Public Class Paste
 
         End If
 
-
-
-        If Not ((Utils.DimTableau(tableau)) = (typeGodet.GetCode.Length + 1)) Then
+        If Not ((Utils.DimTableau(tableau)) = (typeGodet.GetCode.Length)) Then
 
             ErrorsHandling.AddError("Le code godet n'est pas de même taille, ce qui peut influencer sur les résultats finaux")
 
@@ -84,7 +82,7 @@ Public Class Paste
     End Function
 
 
-    Sub LoadViaSketch(ByVal valeurPrimaire As String, ByVal cote As String)
+    Private Sub LoadViaSketch(ByVal valeurPrimaire As String, ByVal cote As String)
 
         Dim swDimension As Dimension
 
@@ -108,7 +106,7 @@ Public Class Paste
 
     End Sub
 
-    Sub LoadConfig(ByVal nomPiece As String, ByVal config As String)
+    Private Sub LoadConfig(ByVal nomPiece As String, ByVal config As String)
 
         Dim swComp As Component2
 
@@ -124,7 +122,7 @@ Public Class Paste
         swComp.ReferencedConfiguration = config
 
     End Sub
-    Sub LoadState(ByVal nomPiece As String, ByVal state As String)
+    Private Sub LoadState(ByVal nomPiece As String, ByVal state As Boolean)
 
         Dim swComp As Component2
 
@@ -137,11 +135,11 @@ Public Class Paste
 
         End If
 
-        If state = "Vrai" Then
+        If state Then
 
             swComp.SetSuppression2(0)
 
-        ElseIf state = "Faux" Then
+        ElseIf Not state Then
 
             swComp.SetSuppression2(2)
 
@@ -149,7 +147,7 @@ Public Class Paste
 
     End Sub
 
-    Sub LoadStateFeat(ByVal nomFeat As String, ByVal state As String)
+    Private Sub LoadStateFeat(ByVal nomFeat As String, ByVal state As Boolean)
 
         Dim swFeat As Feature
 
@@ -162,11 +160,11 @@ Public Class Paste
 
         End If
 
-        If state = "Vrai" Then
+        If state Then
 
             swFeat.SetSuppression2(0, 1, 0)
 
-        ElseIf state = "Faux" Then
+        ElseIf Not state Then
 
             swFeat.SetSuppression2(2, 1, 0)
 

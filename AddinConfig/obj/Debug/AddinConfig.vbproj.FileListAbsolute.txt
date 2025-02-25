@@ -8,9 +8,6 @@ C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.dll
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\SwVBAddin1.xml
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.pdb
-C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixGraissageBlocEqui.resources
-C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixMachine.resources
-C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.FenetreAccueil.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.FenetreChoixCopier.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.InfosGodetsDI.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.LoadingForm.resources
@@ -19,3 +16,4 @@ C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.pdb
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.xml
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.AssemblyReference.cache
+C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixMachineTuyauGraissage.resources

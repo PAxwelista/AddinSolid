@@ -28,9 +28,10 @@ Partial Class LoadingForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(291, 98)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(163, 72)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(80, 13)
+        Me.Label1.Size = New System.Drawing.Size(201, 31)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Calcul en cours"
         '
@@ -38,7 +39,7 @@ Partial Class LoadingForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(678, 303)
+        Me.ClientSize = New System.Drawing.Size(540, 178)
         Me.Controls.Add(Me.Label1)
         Me.Name = "LoadingForm"
         Me.Text = "LoadingForm"
