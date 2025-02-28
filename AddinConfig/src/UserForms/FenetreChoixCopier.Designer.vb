@@ -57,12 +57,12 @@ Partial Class FenetreChoixCopier
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(323, 114)
         Me.Controls.Add(Me.ValideCopie)
         Me.Controls.Add(Me.ComboBoxType)
         Me.Controls.Add(Me.Label1)
         Me.Name = "FenetreChoixCopier"
-        Me.Text = "Form1"
+        Me.Text = "Choix code"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

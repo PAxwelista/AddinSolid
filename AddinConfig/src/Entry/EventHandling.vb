@@ -34,20 +34,20 @@ Public Class DocumentEventHandler
 
     Function DisconnectModelViews() As Boolean
         'Close events on all currently open docs
-        Dim mView As DocView
-        Dim key As ModelView
+        Dim MView As DocView
+        Dim Key As ModelView
         Dim numKeys As Integer
         numKeys = openModelViews.Count
         Dim keys() As Object = New Object(numKeys - 1) {}
 
         'Remove all ModelView event handlers
         openModelViews.Keys.CopyTo(keys, 0)
-        For Each key In keys
-            mView = openModelViews.Item(key)
-            mView.DetachEventHandlers()
-            openModelViews.Remove(key)
-            mView = Nothing
-            key = Nothing
+        For Each Key In keys
+            MView = openModelViews.Item(Key)
+            MView.DetachEventHandlers()
+            openModelViews.Remove(Key)
+            MView = Nothing
+            Key = Nothing
         Next
     End Function
 
@@ -67,7 +67,7 @@ End Class
 Public Class PartEventHandler
     Inherits DocumentEventHandler
 
-    Dim WithEvents iPart As PartDoc
+    Dim WithEvents IPart As PartDoc
 
     Overrides Function Init(ByVal sw As SldWorks, ByVal addin As SwAddin, ByVal model As ModelDoc2) As Boolean
         userAddin = addin
@@ -104,25 +104,25 @@ End Class
 Public Class AssemblyEventHandler
     Inherits DocumentEventHandler
 
-    Dim WithEvents iAssembly As AssemblyDoc
+    Dim WithEvents IAssembly As AssemblyDoc
     Dim swAddin As SwAddin
 
     Overrides Function Init(ByVal sw As SldWorks, ByVal addin As SwAddin, ByVal model As ModelDoc2) As Boolean
         userAddin = addin
         iAssembly = model
-        iDocument = iAssembly
+        iDocument = IAssembly
         iSwApp = sw
         swAddin = addin
 
     End Function
 
     Overrides Function AttachEventHandlers() As Boolean
-        AddHandler iAssembly.DestroyNotify, AddressOf Me.AssemblyDoc_DestroyNotify
-        AddHandler iAssembly.NewSelectionNotify, AddressOf Me.AssemblyDoc_NewSelectionNotify
-        AddHandler iAssembly.ComponentStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify
-        AddHandler iAssembly.ComponentStateChangeNotify2, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify2
-        AddHandler iAssembly.ComponentVisualPropertiesChangeNotify, AddressOf Me.AssemblyDoc_ComponentVisiblePropertiesChangeNotify
-        AddHandler iAssembly.ComponentDisplayStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentDisplayStateChangeNotify
+        AddHandler IAssembly.DestroyNotify, AddressOf Me.AssemblyDoc_DestroyNotify
+        AddHandler IAssembly.NewSelectionNotify, AddressOf Me.AssemblyDoc_NewSelectionNotify
+        AddHandler IAssembly.ComponentStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify
+        AddHandler IAssembly.ComponentStateChangeNotify2, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify2
+        AddHandler IAssembly.ComponentVisualPropertiesChangeNotify, AddressOf Me.AssemblyDoc_ComponentVisiblePropertiesChangeNotify
+        AddHandler IAssembly.ComponentDisplayStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentDisplayStateChangeNotify
 
 
 
@@ -130,12 +130,12 @@ Public Class AssemblyEventHandler
     End Function
 
     Overrides Function DetachEventHandlers() As Boolean
-        RemoveHandler iAssembly.DestroyNotify, AddressOf Me.AssemblyDoc_DestroyNotify
-        RemoveHandler iAssembly.NewSelectionNotify, AddressOf Me.AssemblyDoc_NewSelectionNotify
-        RemoveHandler iAssembly.ComponentStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify
-        RemoveHandler iAssembly.ComponentStateChangeNotify2, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify2
-        RemoveHandler iAssembly.ComponentVisualPropertiesChangeNotify, AddressOf Me.AssemblyDoc_ComponentVisiblePropertiesChangeNotify
-        RemoveHandler iAssembly.ComponentDisplayStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentDisplayStateChangeNotify
+        RemoveHandler IAssembly.DestroyNotify, AddressOf Me.AssemblyDoc_DestroyNotify
+        RemoveHandler IAssembly.NewSelectionNotify, AddressOf Me.AssemblyDoc_NewSelectionNotify
+        RemoveHandler IAssembly.ComponentStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify
+        RemoveHandler IAssembly.ComponentStateChangeNotify2, AddressOf Me.AssemblyDoc_ComponentStateChangeNotify2
+        RemoveHandler IAssembly.ComponentVisualPropertiesChangeNotify, AddressOf Me.AssemblyDoc_ComponentVisiblePropertiesChangeNotify
+        RemoveHandler IAssembly.ComponentDisplayStateChangeNotify, AddressOf Me.AssemblyDoc_ComponentDisplayStateChangeNotify
 
         DisconnectModelViews()
 
@@ -219,26 +219,26 @@ End Class
 Public Class DrawingEventHandler
     Inherits DocumentEventHandler
 
-    Dim WithEvents iDrawing As DrawingDoc
+    Dim WithEvents IDrawing As DrawingDoc
 
     Overrides Function Init(ByVal sw As SldWorks, ByVal addin As SwAddin, ByVal model As ModelDoc2) As Boolean
         userAddin = addin
         iDrawing = model
-        iDocument = iDrawing
+        iDocument = IDrawing
         iSwApp = sw
 
     End Function
 
     Overrides Function AttachEventHandlers() As Boolean
-        AddHandler iDrawing.DestroyNotify, AddressOf Me.DrawingDoc_DestroyNotify
-        AddHandler iDrawing.NewSelectionNotify, AddressOf Me.DrawingDoc_NewSelectionNotify
+        AddHandler IDrawing.DestroyNotify, AddressOf Me.DrawingDoc_DestroyNotify
+        AddHandler IDrawing.NewSelectionNotify, AddressOf Me.DrawingDoc_NewSelectionNotify
 
         ConnectModelViews()
     End Function
 
     Overrides Function DetachEventHandlers() As Boolean
-        RemoveHandler iDrawing.DestroyNotify, AddressOf Me.DrawingDoc_DestroyNotify
-        RemoveHandler iDrawing.NewSelectionNotify, AddressOf Me.DrawingDoc_NewSelectionNotify
+        RemoveHandler IDrawing.DestroyNotify, AddressOf Me.DrawingDoc_DestroyNotify
+        RemoveHandler IDrawing.NewSelectionNotify, AddressOf Me.DrawingDoc_NewSelectionNotify
 
         DisconnectModelViews()
 
@@ -257,13 +257,11 @@ End Class
 'Class for handling ModelView events
 Public Class DocView
 
-    Dim WithEvents iModelView As ModelView
-    Dim userAddin As SwAddin
+    Dim WithEvents IModelView As ModelView
     Dim parentDoc As DocumentEventHandler
 
     Function Init(ByVal addin As SwAddin, ByVal mView As ModelView, ByVal parent As DocumentEventHandler) As Boolean
-        userAddin = addin
-        iModelView = mView
+        IModelView = mView
         parentDoc = parent
     End Function
 

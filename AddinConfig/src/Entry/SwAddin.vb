@@ -22,15 +22,14 @@ Public Class SwAddin
     Implements SolidWorks.Interop.swpublished.SwAddin
 
 #Region "Local Variables"
-    Dim WithEvents iSwApp As SldWorks
-    Dim iCmdMgr As ICommandManager
+    Dim WithEvents ISwApp As SldWorks
+    Dim ICmdMgr As ICommandManager
     Dim addinID As Integer
     Dim openDocs As Hashtable
-    Dim SwEventPtr As SldWorks
     Dim iBmp As BitmapHandler
-    Dim frame As IFrame
-    Dim bRet As Boolean
-    Dim registerID As Integer
+    ReadOnly frame As IFrame
+    ReadOnly bRet As Boolean
+    ReadOnly registerID As Integer
 
     Public Const mainCmdGroupID As Integer = 0
     Public Const mainItemID1 As Integer = 0
@@ -42,7 +41,7 @@ Public Class SwAddin
     ' Public Properties
     ReadOnly Property SwApp() As SldWorks
         Get
-            Return iSwApp
+            Return ISwApp
         End Get
     End Property
 
@@ -130,7 +129,6 @@ Public Class SwAddin
         AddCommandMgr()
 
         'Setup the Event Handlers
-        SwEventPtr = iSwApp
         openDocs = New Hashtable
         AttachEventHandlers()
 
@@ -227,9 +225,9 @@ Public Class SwAddin
 
         Dim menuToolbarOption As Integer = swCommandItemType_e.swMenuItem Or swCommandItemType_e.swToolbarItem
 
-        cmdIndex0 = cmdGroup.AddCommandItem2("Copie", -1, "Récupère le code godet", "Copier", 0, "Copier", "", mainItemID1, menuToolbarOption)
+        cmdIndex0 = cmdGroup.AddCommandItem2("Copie", -1, "Récupère le code godet", "Copier", 1, "Copier", "", mainItemID1, menuToolbarOption)
         cmdIndex1 = cmdGroup.AddCommandItem2("Coller", -1, "Colle le code godet", "Coller", 0, "Coller", "", mainItemID2, menuToolbarOption)
-        cmdIndex2 = cmdGroup.AddCommandItem2("Configurateur", -1, "Lance le configurateur", "Configurateur", 0, "Configurateur", "", mainItemID3, menuToolbarOption)
+        cmdIndex2 = cmdGroup.AddCommandItem2("Configurateur", -1, "Lance le configurateur", "Configurateur", 2, "Configurateur", "", mainItemID3, menuToolbarOption)
         cmdIndex3 = cmdGroup.AddCommandItem2("GetSelectPos", -1, "Récupère le numéro de l'élément sélectionné", "GetSelectPos", 0, "GetSelectPos", "", mainItemID4, menuToolbarOption)
 
         cmdGroup.HasToolbar = True
@@ -262,7 +260,9 @@ Public Class SwAddin
                 cmdIDs(3) = cmdGroup.CommandID(cmdIndex3)
 
                 TextType(0) = swCommandTabButtonTextDisplay_e.swCommandTabButton_TextHorizontal
-
+                TextType(1) = swCommandTabButtonTextDisplay_e.swCommandTabButton_TextHorizontal
+                TextType(2) = swCommandTabButtonTextDisplay_e.swCommandTabButton_TextHorizontal
+                TextType(3) = swCommandTabButtonTextDisplay_e.swCommandTabButton_TextHorizontal
 
                 bResult = cmdBox.AddCommands(cmdIDs, TextType)
 
@@ -438,6 +438,7 @@ Public Class SwAddin
 #Region "UI Callbacks"
     Sub Copier()
 
+
         ErrorsHandling.RemoveAllErrors()
 
         Dim copy As New Copy(SwApp.ActiveDoc)
@@ -446,8 +447,11 @@ Public Class SwAddin
 
         If ErrorsHandling.NbErrors > 0 Then MsgBox(ErrorsHandling.ShowErrors)
 
+
+
     End Sub
     Sub Coller()
+
 
         ErrorsHandling.RemoveAllErrors()
 
@@ -458,9 +462,12 @@ Public Class SwAddin
         If ErrorsHandling.NbErrors > 0 Then MsgBox(ErrorsHandling.ShowErrors)
 
 
+
     End Sub
 
     Sub Configurateur()
+
+
 
         Dim time As New BiblioIEV.IEVTimer
 
@@ -476,7 +483,9 @@ Public Class SwAddin
 
         time.StopChrono()
 
-        MsgBox("Configurator time : " & time.Time & " s")
+        MsgBox(time.ShowChrono)
+
+
     End Sub
 
     Sub GetSelectPos()
@@ -488,6 +497,7 @@ Public Class SwAddin
         ArboPos.GetSelectedArboInfo()
 
         If ErrorsHandling.NbErrors > 0 Then MsgBox(ErrorsHandling.ShowErrors)
+
 
     End Sub
 #End Region

@@ -39,7 +39,7 @@ Module ViewsTransport
             End If
         Next
 
-        If paramAngleTransport <> vbNullString Then
+        If paramAngleTransport <> 0 Then
             angleTransport = CDbl(paramAngleTransport)
             bTransport = True
         Else
@@ -62,7 +62,7 @@ Module ViewsTransport
         End If
 
 
-        If paramAngleCaveeHaute <> vbNullString Then
+        If paramAngleCaveeHaute <> 0 Then
             angleCaveeHaute = CDbl(paramAngleCaveeHaute)
             bCavée = True
         Else

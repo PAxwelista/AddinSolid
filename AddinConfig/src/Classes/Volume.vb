@@ -7,7 +7,7 @@ Imports SolidWorks.Interop.swconst
 Public Class Volume
 
 
-    Private _swVolumeModelDoc As ModelDoc2
+    Private ReadOnly _swVolumeModelDoc As ModelDoc2
 
     Public Sub New(swModelDoc As ModelDoc2)
 
@@ -45,6 +45,7 @@ Public Class Volume
 
         currentDim = swDimension.Value
 
+        LoadingForm.TopMost = False
         LoadingForm.Show()
 
 
@@ -54,12 +55,21 @@ Public Class Volume
 
             If currentVolumeM3 < 0 Then
 
-                MsgBox("Erreur de récupération du volume")
+                ErrorsHandling.AddError("Erreur de récupération du volume")
+                Return False
+                LoadingForm.Hide()
+                Exit Function
+
+            ElseIf currentVolumeM3 - targetVolumeM3 < 0.05 And currentVolumeM3 - targetVolumeM3 >= 0 Then
+
                 exitWhile = True
 
-            ElseIf Math.Abs(currentVolumeM3 - targetVolumeM3) < 0.05 Then
+            ElseIf (currentDim <= 0 Or currentDim > 3000) Then
 
-                exitWhile = True
+                ErrorsHandling.AddError("Valeur de la dimensions pour calcul du volume incohérente.")
+                Return False
+                LoadingForm.Hide()
+                Exit Function
 
             ElseIf (currentVolumeM3 > targetVolumeM3 And previousDown) Then
 
@@ -86,10 +96,6 @@ Public Class Volume
                 currentDim += increment
                 swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
 
-            ElseIf (currentDim <= 0 Or currentDim > 3000) Then
-
-                exitWhile = True
-                ErrorsHandling.AddError("Valeur de la dimensions pour calcul du volume incohérente.")
 
             End If
 

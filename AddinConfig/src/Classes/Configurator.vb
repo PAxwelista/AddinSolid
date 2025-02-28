@@ -3,19 +3,21 @@
 Public Class Configurator
 
     Private ReadOnly _swApp As SldWorks
+    Private ReadOnly _swModelDoc As ModelDoc
 
     Public Sub New(swApp As SldWorks)
 
         _swApp = swApp
 
+        _swModelDoc = swApp.ActiveDoc
+
     End Sub
 
     Public Sub StartConfig()
 
-        Dim nameGodet As String = Split(_swApp.ActiveDoc.GetTitle, ".")(0)
+        Dim nameGodet As String = Split(_swModelDoc.GetTitle, ".")(0)
 
         If Left(nameGodet, 2) = "GC" And (Len(nameGodet) = 7 Or Len(nameGodet) = 13) Then
-
 
             Call StartFullBucket()
 
@@ -25,11 +27,14 @@ Public Class Configurator
 
         End If
 
+        _swModelDoc.EditRebuild3()
+
+
     End Sub
 
     Private Sub StartOnlyBucket()
 
-        Dim caisse As New Caisse(_swApp.ActiveDoc, _swApp.ActiveDoc.Parameter("D1@Profil godet"))
+        Dim caisse As New Caisse(_swModelDoc, _swModelDoc.Parameter("D1@Profil godet"))
 
         caisse.SetBucket()
 

@@ -6,20 +6,21 @@ Public Class Paste
         MyBase.New(swModelDoc)
 
     End Sub
-    Function Paste(Optional InitialCode As String = "") As Boolean
+    Public Function Paste(Optional initialCode As String = "") As Boolean
 
         Dim codeGodet As String
         Dim typeGodet As EquipmentCode
         Dim tableau() As String
 
 
-        If InitialCode = "" Then
+
+        If initialCode = "" Then
 
             codeGodet = InputBox("Coller le code Godet : ", "Code Godet")
 
         Else
 
-            codeGodet = InitialCode
+            codeGodet = initialCode
 
         End If
 

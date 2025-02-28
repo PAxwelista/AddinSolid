@@ -88,7 +88,7 @@ Public Class AttachesInfosTuyauGraissage
         Call replaceNullToString(modele)
         Call replaceNullToString(version)
 
-        For i As Integer = 1 To sizeTab
+        For i As Integer = 1 To sizeTab - 1
 
             If dataRange.Value2(i, 1) = Marque And dataRange.Value2(i, 2) = modele And dataRange.Value2(i, 3) = version Then
 

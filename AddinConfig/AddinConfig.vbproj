@@ -95,8 +95,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BiblioIEV">
-      <HintPath>..\..\..\..\BibliothèqueVB\BiblioIEV\BiblioIEV\bin\Debug\BiblioIEV.dll</HintPath>
+    <Reference Include="BiblioIEV, Version=1.0.0.0, Culture=neutral, PublicKeyToken=29672af2134d2a06, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>T:\Commun\B.E\Logiciels\Macro\Bibliothèques\BiblioIEV\BiblioIEV\bin\Debug\BiblioIEV.dll</HintPath>
     </Reference>
     <Reference Include="EPDM.Interop.epdm">
       <HintPath>..\..\..\..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS PDM\EPDM.Interop.epdm.dll</HintPath>

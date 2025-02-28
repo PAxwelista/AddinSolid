@@ -12,8 +12,7 @@ C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.InfosGodetsDI.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.LoadingForm.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.GenerateResource.cache
-C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.dll
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.pdb
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.xml
-C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.AssemblyReference.cache
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixMachineTuyauGraissage.resources
+C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.dll

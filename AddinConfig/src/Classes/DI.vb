@@ -42,7 +42,18 @@ Public Class DI
 
         Dim infosAttache As New AttachesInfosTuyauGraissage()
 
-        If _caisse IsNot Nothing Then _caisse.SetRecommandAngles(convertToNumb(infosAttache.GetSelectColumn(17)), convertToNumb(infosAttache.GetSelectColumn(18)))
+        Dim time As New BiblioIEV.IEVTimer
+
+        time.SaveChrono("Début ChangeEquipment")
+
+        If _caisse Is Nothing Then
+
+            ErrorsHandling.AddError("Caisson non présente dans l'assemblage")
+            Exit Function
+
+        End If
+
+        _caisse.SetRecommandAngles(ConvertToNumb(infosAttache.GetSelectColumn(17)), ConvertToNumb(infosAttache.GetSelectColumn(18)))
 
         _marqueAtt = infosAttache.GetSelectColumn(1)
         _modeleAtt = infosAttache.GetSelectColumn(2)
@@ -56,26 +67,43 @@ Public Class DI
 
         _planAtt = If(_attDirect, infosAttache.GetSelectColumn(19), If(_marqueAtt = "Liebherr", "GC EN 3184", "GC EN 2625"))
 
-
+        time.SaveChrono("Après récupérations infos fichier excel")
 
         _caisse.SetBucket()
 
+        time.SaveChrono("Après modif caisse")
+
         ChangeChassis()
+
+        time.SaveChrono("Après cahngeemnt châssis")
 
         ChangeConfigChassis()
 
+        time.SaveChrono("Après Changement config chassis")
+
         If _swComponentAttaches IsNot Nothing And Not _planAtt = "" Then ChangeAttache()
+
+        time.SaveChrono("Après Changement attaches")
 
         ChangeTransportDims()
 
-        MakeViews(_swApp, _transportAngle, _caisse.GetAngDos)
+        time.SaveChrono("Après cahngement dimensions transport")
 
+        MakeViews(_swApp, ConvertToNumb(_transportAngle), ConvertToNumb(_caisse.GetAngDos))
+
+        time.SaveChrono("Après makeViews")
 
         ChangeCustInfos()
 
+        time.SaveChrono("Après le cahngement des infos de la carte de donnée")
+
         ChangeGraissage()
 
+        time.SaveChrono("Après changement graisseur")
+
         ChangeTuyau()
+
+        time.SaveChrono("Fin ChangeEquipment (Après changement tuayteurie)")
 
     End Function
 
@@ -181,10 +209,10 @@ Public Class DI
 
     Private Sub ChangeTransportDims()
 
-        If _transportHeigth <> "-" Then ChangeSketchDim(_swModelDoc, _transportHeigth, "D2@Transport")
-        If _caisse.GetAngDos <> "-" Then ChangeSketchDim(_swModelDoc, _caisse.GetAngDos, "D2@Cavée haute")
-        If _caveeHauteHeigth <> "-" Then ChangeSketchDim(_swModelDoc, _caveeHauteHeigth, "D1@Cavée haute")
-        If _transportAngle <> "-" Then ChangeSketchDim(_swModelDoc, _transportAngle, "D1@Transport")
+        If _transportHeigth <> "-" And _transportHeigth = "" And _transportHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportHeigth, "D2@Transport")
+        If _caisse.GetAngDos <> "-" And _caisse.GetAngDos = "" And _caisse.GetAngDos IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caisse.GetAngDos, "D2@Cavée haute")
+        If _caveeHauteHeigth <> "-" And _caveeHauteHeigth = "" And _caveeHauteHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caveeHauteHeigth, "D1@Cavée haute")
+        If _transportAngle <> "-" And _transportAngle = "" And _transportAngle IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportAngle, "D1@Transport")
 
     End Sub
 

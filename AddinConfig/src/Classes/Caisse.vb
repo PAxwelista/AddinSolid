@@ -34,9 +34,17 @@ Public Class Caisse
 
     Public Function SetBucket() As Boolean
 
+        Dim time As New BiblioIEV.IEVTimer
+
+        time.SaveChrono("Début SetBucket")
+
         AskUserForDim()
 
+        time.SaveChrono("Après demande à l'utilisateur les infos")
+
         PasteCode()
+
+        time.SaveChrono("Après avoir modifié la caisse")
 
     End Function
 
@@ -133,11 +141,21 @@ Public Class Caisse
 
         Dim paste As New Paste(_swModelDoc)
 
+        Dim time As New BiblioIEV.IEVTimer
+
+        time.SaveChrono("Début PasteCode")
+
         ChangeCode()
+
+        time.SaveChrono("Après ChangeCode")
 
         paste.Paste(Join(_tabCode, ";"))
 
+        time.SaveChrono("Après avoir utiliser Paste")
+
         _volume.SetVolume(_swDim, _volumeL, _swModelDoc)
+
+        time.SaveChrono("Après setVolume")
 
         Call AddCustInfoToAllConfig(_swModelDoc, "Description", "Caisse DI " & _infosGodDI.classe & " " & _volumeL & "L x " & _length & "mm")
 
