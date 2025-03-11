@@ -226,7 +226,7 @@ Public Class SwAddin
         Dim menuToolbarOption As Integer = swCommandItemType_e.swMenuItem Or swCommandItemType_e.swToolbarItem
 
         cmdIndex0 = cmdGroup.AddCommandItem2("Copie", -1, "Récupère le code godet", "Copier", 1, "Copier", "", mainItemID1, menuToolbarOption)
-        cmdIndex1 = cmdGroup.AddCommandItem2("Coller", -1, "Colle le code godet", "Coller", 0, "Coller", "", mainItemID2, menuToolbarOption)
+        cmdIndex1 = cmdGroup.AddCommandItem2("Coller", -1, "Colle le code godet", "Coller", 2, "Coller", "", mainItemID2, menuToolbarOption)
         cmdIndex2 = cmdGroup.AddCommandItem2("Configurateur", -1, "Lance le configurateur", "Configurateur", 2, "Configurateur", "", mainItemID3, menuToolbarOption)
         cmdIndex3 = cmdGroup.AddCommandItem2("GetSelectPos", -1, "Récupère le numéro de l'élément sélectionné", "GetSelectPos", 0, "GetSelectPos", "", mainItemID4, menuToolbarOption)
 
@@ -438,7 +438,6 @@ Public Class SwAddin
 #Region "UI Callbacks"
     Sub Copier()
 
-
         ErrorsHandling.RemoveAllErrors()
 
         Dim copy As New Copy(SwApp.ActiveDoc)
@@ -447,11 +446,8 @@ Public Class SwAddin
 
         If ErrorsHandling.NbErrors > 0 Then MsgBox(ErrorsHandling.ShowErrors)
 
-
-
     End Sub
     Sub Coller()
-
 
         ErrorsHandling.RemoveAllErrors()
 
@@ -469,21 +465,13 @@ Public Class SwAddin
 
 
 
-        Dim time As New BiblioIEV.IEVTimer
-
         Dim configurator As New Configurator(SwApp)
-
-        time.StartChrono()
 
         ErrorsHandling.RemoveAllErrors()
 
         configurator.StartConfig()
 
         If ErrorsHandling.NbErrors > 0 Then MsgBox(ErrorsHandling.ShowErrors)
-
-        time.StopChrono()
-
-        MsgBox(time.ShowChrono)
 
 
     End Sub
@@ -503,4 +491,3 @@ Public Class SwAddin
 #End Region
 
 End Class
-

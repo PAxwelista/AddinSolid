@@ -1,0 +1,15 @@
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\AddinConfig.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.pdb
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.ChoixMachineTuyauGraissage.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.FenetreChoixCopier.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.InfosGodetsDI.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.LoadingForm.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.vbproj.GenerateResource.cache
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.vbproj.CoreCompileInputs.cache
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.vbproj.CopyComplete
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\AddinConfig.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Release\SwVBAddin1.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\SwVBAddin1.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\AddinConfig.tlb

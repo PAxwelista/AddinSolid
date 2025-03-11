@@ -38,18 +38,14 @@ Public Class DI
 
     End Sub
 
-    Public Function ChangeEquipment() As Boolean
+    Public Sub ChangeEquipment()
 
         Dim infosAttache As New AttachesInfosTuyauGraissage()
-
-        Dim time As New BiblioIEV.IEVTimer
-
-        time.SaveChrono("Début ChangeEquipment")
 
         If _caisse Is Nothing Then
 
             ErrorsHandling.AddError("Caisson non présente dans l'assemblage")
-            Exit Function
+            Exit Sub
 
         End If
 
@@ -67,51 +63,31 @@ Public Class DI
 
         _planAtt = If(_attDirect, infosAttache.GetSelectColumn(19), If(_marqueAtt = "Liebherr", "GC EN 3184", "GC EN 2625"))
 
-        time.SaveChrono("Après récupérations infos fichier excel")
-
         _caisse.SetBucket()
-
-        time.SaveChrono("Après modif caisse")
 
         ChangeChassis()
 
-        time.SaveChrono("Après cahngeemnt châssis")
-
         ChangeConfigChassis()
-
-        time.SaveChrono("Après Changement config chassis")
 
         If _swComponentAttaches IsNot Nothing And Not _planAtt = "" Then ChangeAttache()
 
-        time.SaveChrono("Après Changement attaches")
-
         ChangeTransportDims()
-
-        time.SaveChrono("Après cahngement dimensions transport")
 
         MakeViews(_swApp, ConvertToNumb(_transportAngle), ConvertToNumb(_caisse.GetAngDos))
 
-        time.SaveChrono("Après makeViews")
-
         ChangeCustInfos()
-
-        time.SaveChrono("Après le cahngement des infos de la carte de donnée")
 
         ChangeGraissage()
 
-        time.SaveChrono("Après changement graisseur")
-
         ChangeTuyau()
 
-        time.SaveChrono("Fin ChangeEquipment (Après changement tuayteurie)")
+    End Sub
 
-    End Function
-
-    Private Function InitializeComponents(obj As Object) As Boolean
+    Private Function InitializeComponents(comps As Object) As Boolean
 
 
 
-        For Each swComponent As Component2 In obj
+        For Each swComponent As Component2 In comps
 
             Dim swModelDocTamp As ModelDoc2 = swComponent.GetModelDoc2
 
@@ -125,7 +101,7 @@ Public Class DI
 
                 If Left(customProp, 6) = "Caisse" Then
 
-                    _caisse = New Caisse(swModelDocTamp, swModelDocTamp.Parameter("D1@Profil godet"))
+                    _caisse = New CaisseDI(swModelDocTamp, swModelDocTamp.Parameter("D1@Profil godet"), New Generic.List(Of Classe) From {ClassesDIData.GetClasseByName("201"), ClassesDIData.GetClasseByName("211L")})
 
                 ElseIf Left(customProp, 7) = "Châssis" Then
 
@@ -149,7 +125,7 @@ Public Class DI
 
             End If
 
-            'On récupère les deux graissages et les deux tuyauteries grâce à leur nom pour plus tard
+            'On récupère les deux graissages et les deux tuyauteries grâce à leur nom
 
             If swComponent.Name2 = "TRAD-1" Then
 
@@ -178,12 +154,12 @@ Public Class DI
 
     Private Sub ChangeChassis()
 
-        If _caisse.GetClasse = "201" Then
+        If _caisse.GetClasseName = "201" Then
 
             ReplaceComp(_swComponentChassis, "C:\PDM\_IEV\03-STANDARDS\IEV\GC EN 2210\GC EN 2210.SLDASM")
             ReplaceComp(_swComponentVerin, "C:\PDM\_IEV\03-STANDARDS\IEV\GC VE 48\GC VE 48.SLDASM")
 
-        ElseIf _caisse.GetClasse = "211L" Then
+        ElseIf _caisse.GetClasseName = "211L" Then
 
             ReplaceComp(_swComponentChassis, "C:\PDM\_IEV\03-STANDARDS\IEV\GC EN 2212\GC EN 2212.SLDASM")
             ReplaceComp(_swComponentVerin, "C:\PDM\_IEV\03-STANDARDS\IEV\GC VE 49\GC VE 49.SLDASM")
@@ -251,7 +227,7 @@ Public Class DI
 
         End If
 
-        Call AddCustInfoToAllConfig(_swModelDoc, "CLASSE_GC", _caisse.GetClasse)
+        Call AddCustInfoToAllConfig(_swModelDoc, "CLASSE_GC", _caisse.GetClasseName)
 
     End Sub
 
@@ -261,13 +237,13 @@ Public Class DI
 
             _swComponentTuyauterie.SetSuppression2(0)
             _swComponentTuyauterieBlocEqui.SetSuppression2(2)
-            _swComponentTuyauterieBlocEqui.ReferencedConfiguration = _caisse.GetLength & " - " & _caisse.GetClasse
+            _swComponentTuyauterieBlocEqui.ReferencedConfiguration = _caisse.GetLength & " - " & _caisse.GetClasseName
 
         Else
 
             _swComponentTuyauterie.SetSuppression2(2)
             _swComponentTuyauterieBlocEqui.SetSuppression2(0)
-            _swComponentTuyauterie.ReferencedConfiguration = _caisse.GetLength & " - " & _caisse.GetClasse
+            _swComponentTuyauterie.ReferencedConfiguration = _caisse.GetLength & " - " & _caisse.GetClasseName
 
         End If
 

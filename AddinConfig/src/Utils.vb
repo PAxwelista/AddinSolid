@@ -144,7 +144,7 @@ Module Utils
 
     End Function
 
-    Function ConvertToNumb(val As String) As Integer
+    Function ConvertToNumb(val As String) As Double
 
         If IsNumeric(val) Then
 
@@ -175,4 +175,19 @@ Module Utils
         If expression = Nothing Then expression = ""
 
     End Sub
+
+    Function GetCustomProperty(swModelDoc As ModelDoc2, fieldName As String) As String
+
+        Dim swCustomInfos As CustomPropertyManager
+        Dim descriptionBuffer As String = ""
+
+        swCustomInfos = swModelDoc.Extension.CustomPropertyManager("")
+
+        swCustomInfos.Get6(fieldName, False, "", descriptionBuffer, False, False)
+
+
+        Return descriptionBuffer
+
+    End Function
+
 End Module

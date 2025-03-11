@@ -15,15 +15,24 @@ Public Class Configurator
 
     Public Sub StartConfig()
 
-        Dim nameGodet As String = Split(_swModelDoc.GetTitle, ".")(0)
+        Dim configType As String = GetCustomProperty(_swModelDoc, "Type configurateur")
 
-        If Left(nameGodet, 2) = "GC" And (Len(nameGodet) = 7 Or Len(nameGodet) = 13) Then
+        If configType = "Godet GHD" Then
 
             Call StartFullBucket()
 
-        Else
+        ElseIf configType = "Caisse godet GHD 201" Then
 
             Call StartOnlyBucket()
+
+        ElseIf configType = "Godet HD" Then
+
+            MsgBox("in")
+
+        Else
+
+
+            ErrorsHandling.AddError("Ce godet n'est pas un godet pour le configurateur / ou de l'ancienne version")
 
         End If
 
@@ -34,7 +43,7 @@ Public Class Configurator
 
     Private Sub StartOnlyBucket()
 
-        Dim caisse As New Caisse(_swModelDoc, _swModelDoc.Parameter("D1@Profil godet"))
+        Dim caisse As New CaisseDI(_swModelDoc, _swModelDoc.Parameter("D1@Profil godet"), New Generic.List(Of Classe) From {ClassesDIData.GetClasseByName("201"), ClassesDIData.GetClasseByName("211L")})
 
         caisse.SetBucket()
 

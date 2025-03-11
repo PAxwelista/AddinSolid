@@ -16,3 +16,21 @@ C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.xml
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixMachineTuyauGraissage.resources
 C:\Users\a.madotto\Desktop\Macros Solidworks\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\AddinConfig.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\AddinConfig.pdb
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\SwVBAddin1.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\AddinConfig.tlb
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.pdb
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\bin\BiblioIEV.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.ChoixMachineTuyauGraissage.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.FenetreChoixCopier.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.InfosGodetsDI.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.LoadingForm.resources
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.GenerateResource.cache
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.CoreCompileInputs.cache
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.CopyComplete
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.dll
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\SwVBAddin1.xml
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.pdb
+T:\Commun\B.E\Logiciels\Macro\Addins\AddinConfig\AddinConfig\obj\Debug\AddinConfig.vbproj.AssemblyReference.cache

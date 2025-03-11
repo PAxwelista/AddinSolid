@@ -6,7 +6,6 @@ Imports SolidWorks.Interop.swconst
 
 Public Class Volume
 
-
     Private ReadOnly _swVolumeModelDoc As ModelDoc2
 
     Public Sub New(swModelDoc As ModelDoc2)

@@ -46,13 +46,6 @@
 
         End With
 
-        With Me.ComboBoxClasse.Items
-
-            .Add("201")
-            .Add("211L")
-
-        End With
-
 
 
     End Sub

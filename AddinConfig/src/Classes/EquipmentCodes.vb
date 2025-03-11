@@ -63,7 +63,42 @@
             }
          )
 
-        _typesGodet = {codeDI_M, CodeDI_201}
+        Dim CodeCaisseGP_HD_XHD As New EquipmentCode("Caisse GP-HD-XHD", {
+            Tuple.Create(0, "D4@Dessous caisse"),
+            Tuple.Create(1, "15"),
+            Tuple.Create(0, "D2@Profil godet"),
+            Tuple.Create(0, "D6@Profil godet"),
+            Tuple.Create(0, "D1@Profil godet"),
+            Tuple.Create(1, "7"),
+            Tuple.Create(1, "5"),
+            Tuple.Create(1, "6"),
+            Tuple.Create(1, "9"),
+            Tuple.Create(1, "16"),
+            Tuple.Create(2, "18"),
+            Tuple.Create(2, "17"),
+            Tuple.Create(3, "Composant symétrique déflecteur"),
+            Tuple.Create(2, "13"),
+            Tuple.Create(4, "16"),
+            Tuple.Create(0, "D17@Profil caisse"),
+            Tuple.Create(0, "D43@Profil caisse"),
+            Tuple.Create(0, "D4@Dessous caisse"),
+            Tuple.Create(0, "D5@Dessous caisse"),
+            Tuple.Create(0, "D6@Dessous caisse"),
+            Tuple.Create(0, "D9@Dessous caisse"),
+            Tuple.Create(0, "D5@Profil godet"),
+            Tuple.Create(0, "D14@Profil caisse"),
+            Tuple.Create(0, "D13@Profil caisse"),
+            Tuple.Create(0, "D39@Profil caisse")
+            }
+         )
+
+        Dim CodeAttachesGP_HD_XHD As New EquipmentCode("Attaches GP-HD-XHD", {
+            Tuple.Create(3, "Composant sym. général"),
+            Tuple.Create(3, "Sym. Develon")
+            }
+        )
+
+        _typesGodet = {codeDI_M, CodeDI_201, CodeCaisseGP_HD_XHD, CodeAttachesGP_HD_XHD}
 
     End Sub
 

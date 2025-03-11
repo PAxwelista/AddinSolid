@@ -1,50 +1,42 @@
 ﻿Imports SolidWorks.Interop.sldworks
+Imports System.Collections.Generic
 
-Public Class Caisse
+Public MustInherit Class Caisse
 
-    Private ReadOnly _infosGodDI As New InfosGodetsDI
+    Protected ReadOnly _swModelDoc As ModelDoc2
 
-    Private ReadOnly _swModelDoc As ModelDoc2
+    Protected _classe As Classe
+    Protected _possibleClasse As New List(Of Classe)
+    Protected _length As String
+    Protected _deflecteur As Boolean
+    Protected _caisson As Boolean
+    Protected _flanc As String
+    Protected _volume As Volume
+    Protected _volumeL As Integer
+    Protected _angDos As Integer
+    Protected _angPos As Integer
+    Protected _angDosReco As Integer = 0
+    Protected _angPosReco As Integer = 0
+    Protected _tabCode As String()
+    Private _swEditableDim As Dimension
 
-    Private _classe As String
-    Private _length As String
-    Private _deflecteur As Boolean
-    Private _caisson As Boolean
-    Private _flanc As String
-    Private _volume As Volume
-    Private _volumeL As Integer
-    Private _angDos As Integer
-    Private _angPos As Integer
-    Private _caissonRal As Boolean
-    Private _angDosReco As Integer = 0
-    Private _angPosReco As Integer = 0
-    Private _tabCode As String()
-    Private _swDim As Dimension
-
-    Public Sub New(swModelDoc As ModelDoc2, swDimension As Dimension)
+    Public Sub New(swModelDoc As ModelDoc2, swDimension As Dimension, possibleClasse As List(Of Classe))
 
         _swModelDoc = swModelDoc
 
-        _swDim = swDimension
+        _swEditableDim = swDimension
+
+        _possibleClasse = possibleClasse
 
         GetBucketDim()
-
 
     End Sub
 
     Public Function SetBucket() As Boolean
 
-        Dim time As New BiblioIEV.IEVTimer
-
-        time.SaveChrono("Début SetBucket")
-
         AskUserForDim()
 
-        time.SaveChrono("Après demande à l'utilisateur les infos")
-
         PasteCode()
-
-        time.SaveChrono("Après avoir modifié la caisse")
 
     End Function
 
@@ -57,9 +49,9 @@ Public Class Caisse
 
     End Sub
 
-    Public Function GetClasse() As String
+    Public Function GetClasseName() As String
 
-        Return _classe
+        Return _classe.getName
 
     End Function
 
@@ -85,143 +77,27 @@ Public Class Caisse
 
     End Function
 
-    Private Function AskUserForDim() As Boolean
+    Protected MustOverride Sub AskUserForDim()
 
-        _infosGodDI.ComboBoxClasse.Text = _classe
-
-        _infosGodDI.ComboBoxLargeur.Text = _length
-
-        _infosGodDI.CheckBoxDeflecteur.Checked = _deflecteur
-
-        _infosGodDI.CheckBoxCaisson.Checked = _caisson
-
-        _infosGodDI.ComboBoxFlanc.Text = _flanc
-
-        _infosGodDI.TextBoxVolume.Text = _volume.GetLitre
-
-        _infosGodDI.TextBoxAngDos.Text = _angDos
-
-        If _angDosReco <> 0 Then 'dans le cas ou on a récupéré les infos du document excel
-
-            _infosGodDI.Frame1.Visible = True
-
-            _infosGodDI.AngDosReco.Text = _angDosReco
-
-        End If
-
-        _infosGodDI.TextBoxAngPos.Text = _angPos
-
-        If _angPosReco <> 0 Then 'dans le cas ou on a récupéré les infos du document excel
-
-            _infosGodDI.Frame1.Visible = True
-
-            _infosGodDI.AngPosReco.Text = _angPosReco
-
-        End If
-
-        _infosGodDI.CheckBoxCR.Checked = _caissonRal
-
-        _infosGodDI.ShowDialog()
-
-        _classe = _infosGodDI.classe
-        _length = ReplaceRoundLg(_infosGodDI.largeur, {"2696"}, {"2700"})
-        _deflecteur = _infosGodDI.deflecteur
-        _caisson = _infosGodDI.caisson
-        _flanc = _infosGodDI.flanc
-        _volumeL = _infosGodDI.volume
-        _angDos = _infosGodDI.angDos
-        _angPos = _infosGodDI.angPos
-        _caissonRal = _infosGodDI.caissonRallonge
-
-        Return True
-
-    End Function
-
-    Private Function PasteCode() As Boolean
+    Protected Overridable Sub PasteCode()
 
         Dim paste As New Paste(_swModelDoc)
 
-        Dim time As New BiblioIEV.IEVTimer
-
-        time.SaveChrono("Début PasteCode")
-
         ChangeCode()
-
-        time.SaveChrono("Après ChangeCode")
 
         paste.Paste(Join(_tabCode, ";"))
 
-        time.SaveChrono("Après avoir utiliser Paste")
-
-        _volume.SetVolume(_swDim, _volumeL, _swModelDoc)
-
-        time.SaveChrono("Après setVolume")
-
-        Call AddCustInfoToAllConfig(_swModelDoc, "Description", "Caisse DI " & _infosGodDI.classe & " " & _volumeL & "L x " & _length & "mm")
+        If _volume IsNot Nothing Then _volume.SetVolume(_swEditableDim, _volumeL, _swModelDoc)
 
         Call AddCustInfoToAllConfig(_swModelDoc, "Numéro", GetNumber)
 
-    End Function
+    End Sub
 
-    Private Function ChangeCode() As Boolean
-
-
-
-        _tabCode(1) = _infosGodDI.largeur / 1000
-        _tabCode(2) = CStr(_infosGodDI.largeur)
-        _tabCode(3) = _infosGodDI.entraxeButee / 1000
-
-
-        _tabCode(7) = _flanc
-        _tabCode(8) = _flanc + If(_deflecteur, " déflecteur", If(_caissonRal, "", " SR"))
-        _tabCode(9) = _flanc
-
-        _tabCode(13) = If(_deflecteur, "Déflecteur", "Défaut")
-        _tabCode(10) = Not _deflecteur
-        _tabCode(11) = Not _deflecteur
-        _tabCode(12) = Not _deflecteur
-
-        _tabCode(14) = If(_caisson, "Caisson balancier", "Défaut")
-        _tabCode(15) = If(_caisson, "Caisson balancier", "Défaut")
-        _tabCode(16) = If(_caisson, "Caisson balancier", "Défaut")
-        _tabCode(17) = If(_caisson, "Caisson balancier", "Défaut")
-        _tabCode(18) = Not _caisson
-        _tabCode(19) = Not _caisson
-        _tabCode(20) = Not _caisson
-        _tabCode(28) = Not _caisson
-
-        _tabCode(22) = If(_caissonRal, "Défaut", "Sans retour")
-        _tabCode(23) = If(_caissonRal, "Défaut", "Sans retour")
-
-
-        If _classe = "201" Then
-
-            _classe = "201"
-            _tabCode(24) = 879 / 1000
-            _tabCode(25) = 1229 / 1000
-            _tabCode(26) = 225 / 1000
-            _tabCode(27) = 50 * Math.PI / 180
-
-        Else
-
-            _classe = "211L"
-            _tabCode(24) = 1079 / 1000
-            _tabCode(25) = 1629 / 1000
-            _tabCode(26) = 325 / 1000
-            _tabCode(27) = 47.5 * Math.PI / 180
-
-        End If
-
-        _tabCode(5) = _angPos * Math.PI / 180
-        _tabCode(6) = _angDos * Math.PI / 180
-
-        Return True
-
-    End Function
+    Protected MustOverride Sub ChangeCode()
 
 
 
-    Private Function GetBucketDim() As Boolean
+    Protected Overridable Function GetBucketDim() As Boolean
 
         Dim copy As New Copy(_swModelDoc)
 
@@ -229,12 +105,10 @@ Public Class Caisse
 
         If IsInArray(_tabCode, "-") Then
 
-            ErrorsHandling.AddError("le code godet n'est pas bon, peut être lancer sur un mauvais godet")
+            ErrorsHandling.AddError("le code godet n'est pas bon, peut être il a été lancé sur un mauvais godet")
             Return False
 
         End If
-
-        _classe = IIf(_tabCode(26) = 225 / 1000, "201", "211L")
 
         _length = CDbl(_tabCode(1) * 1000)
 
@@ -249,8 +123,6 @@ Public Class Caisse
         _angDos = Math.Round(_tabCode(6) * 180 / Math.PI)
 
         _angPos = Math.Round(_tabCode(5) * 180 / Math.PI)
-
-        _caissonRal = False
 
         Return True
 
