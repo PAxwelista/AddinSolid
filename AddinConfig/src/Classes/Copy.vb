@@ -4,7 +4,19 @@ Public Class Copy
 
     Public Sub New(swModelDoc As ModelDoc2)
         MyBase.New(swModelDoc)
-        _equipmentCodes.SelectCode()
+
+        If GetCustomProperty(_swModelDoc, "Code configurateur") = "" Then
+
+            _equipmentCodes.SelectCode()
+
+        Else
+
+            _equipmentCodes.SelectCodeWithType(GetCustomProperty(_swModelDoc, "Code configurateur"))
+
+        End If
+
+
+
     End Sub
 
     Public Function Copy() As String
@@ -21,11 +33,11 @@ Public Class Copy
 
             Return "Problème code"
             Exit Function
+
         End If
+
         equipmentCode = _equipmentCodes.GetSelected
         codeGodet = equipmentCode.GetEquipmentType
-
-        '_swModelDoc.GetComponents(False) 'ligne qui permet de résoudre le problème avec le fullParamsGodet (SearchComponent qui retourne nothing)
 
 
 
@@ -53,6 +65,11 @@ Public Class Copy
 
                 codeGodet += ";" & Volume.GetLitre()
 
+
+            ElseIf code = 5 Then
+
+                codeGodet += ";" & SaveHoleFastenerSize(codeValue)
+
             End If
 
         Next i
@@ -68,11 +85,11 @@ Public Class Copy
 
         If swDimension IsNot Nothing Then
 
-            Return swDimension.SystemValue
+            Return swDimension.GetValue3(1, "")(0)
 
         Else
 
-            ErrorsHandling.AddError("""" + valeurPrimaire + """" + " n'existe pas dans cet assemblage")
+            ErrorsHandling.AddError("""" + valeurPrimaire + """ n'existe pas dans cet assemblage")
             Return "-"
 
         End If
@@ -84,7 +101,7 @@ Public Class Copy
 
         If Not IsNumeric(CompPos) Then
 
-            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """" + " n'est pas un nombre")
+            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """ n'est pas un nombre")
             Return "-"
             Exit Function
 
@@ -98,7 +115,7 @@ Public Class Copy
 
         Else
 
-            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """" + " n'existe pas dans cet assemblage")
+            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """ n'existe pas dans cet assemblage")
             Return "-"
 
         End If
@@ -112,11 +129,11 @@ Public Class Copy
 
         If swComp IsNot Nothing Then
 
-            Return swComp.IsSuppressed
+            Return Not swComp.IsSuppressed
 
         Else
 
-            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """" + " n'existe pas dans cet assemblage")
+            ErrorsHandling.AddError("La pièce numéro """ + CompPos + """ n'existe pas dans cet assemblage")
             Return "-"
 
         End If
@@ -130,15 +147,43 @@ Public Class Copy
 
         If swFeat IsNot Nothing Then
 
-            Return swFeat.IsSuppressed
+            Return Not swFeat.IsSuppressed
 
         Else
 
-            ErrorsHandling.AddError("""" + nomFeat + """" + " n'existe pas dans cet assemblage")
-
+            ErrorsHandling.AddError("""" + nomFeat + """ n'existe pas dans cet assemblage")
             Return "-"
 
         End If
+
+    End Function
+
+    Private Function SaveHoleFastenerSize(ByVal nomFeat As String) As String
+
+        Dim swFeat As Feature
+        Dim swWizardHole As WizardHoleFeatureData2
+
+        swFeat = SearchFeat(nomFeat)
+
+        If swFeat Is Nothing Then
+
+            ErrorsHandling.AddError("""" + nomFeat + """ n'existe pas dans cet assemblage")
+            Return "-"
+            Exit Function
+
+        End If
+
+        If swFeat.GetTypeName2 <> "HoleWzd" Then
+
+            ErrorsHandling.AddError("""" + nomFeat + """ n'est pas un trou avec assistance de perçage")
+            Return "-"
+            Exit Function
+
+        End If
+
+        swWizardHole = swFeat.GetDefinition
+
+        Return swWizardHole.FastenerSize
 
     End Function
 

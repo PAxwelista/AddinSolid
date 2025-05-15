@@ -9,11 +9,6 @@ Public Class CopyPaste
 
 
     End Sub
-
-
-
-
-
     Function SearchComponent(ByVal CompPos As Integer) As Component2
 
         Dim swFeat As Feature
@@ -28,9 +23,13 @@ Public Class CopyPaste
 
         End If
 
+        _swModelDoc.getComponents(False)
+
         swSelMan = _swModelDoc.SelectionManager
 
         swFeat = _swModelDoc.FirstFeature
+
+
 
         While swFeat IsNot Nothing
 
@@ -45,7 +44,9 @@ Public Class CopyPaste
                 swFeat.Select2(False, 0)
                 swComp = swSelMan.GetSelectedObjectsComponent4(1, -1)
                 swSelMan.DeSelect2(CLng(1), -1)
+
                 Return swComp
+
                 Exit Function
 
             End If

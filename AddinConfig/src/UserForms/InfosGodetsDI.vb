@@ -7,17 +7,18 @@
     Public volume As Double
     Public angDos As Double
     Public angPos As Double
-    Public entraxeButee As Double
     Public Annuler As Boolean
     Public classe As String
 
-    Public Sub New()
+    Public Sub New(Optional possibleLength As String() = Nothing)
 
         ' Cet appel est requis par le concepteur.
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
         Annuler = False
+
+        If possibleLength Is Nothing Then possibleLength = {"2400", "2500", "2600", "2650", "2696", "2750", "2800", "2900", "3000", "3100", "3200", "3300", "3400", "3500"}
 
         With ComboBoxFlanc.Items
 
@@ -27,26 +28,7 @@
 
         End With
 
-        With ComboBoxLargeur.Items
-
-            .Add("2400")
-            .Add("2500")
-            .Add("2600")
-            .Add("2650")
-            .Add("2696")
-            .Add("2750")
-            .Add("2800")
-            .Add("2900")
-            .Add("3000")
-            .Add("3100")
-            .Add("3200")
-            .Add("3300")
-            .Add("3400")
-            .Add("3500")
-
-        End With
-
-
+        ComboBoxLargeur.Items.AddRange(possibleLength)
 
     End Sub
 
@@ -64,16 +46,6 @@
         If IsNumeric(TextBoxVolume.Text) Then volume = TextBoxVolume.Text
         If IsNumeric(TextBoxAngDos.Text) Then angDos = TextBoxAngDos.Text
         If IsNumeric(TextBoxAngPos.Text) Then angPos = TextBoxAngPos.Text
-        Select Case largeur
-            Case "2400", "2500"
-                entraxeButee = 1500
-            Case "2600", "2650", "2696", "2750", "2800", "2900"
-                entraxeButee = 1700
-            Case "3000", "3100", "3200"
-                entraxeButee = 2000
-            Case "3300", "3400", "3500"
-                entraxeButee = 2300
-        End Select
 
         classe = ComboBoxClasse.Text
 

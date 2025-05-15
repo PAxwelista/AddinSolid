@@ -225,10 +225,10 @@ Public Class SwAddin
 
         Dim menuToolbarOption As Integer = swCommandItemType_e.swMenuItem Or swCommandItemType_e.swToolbarItem
 
-        cmdIndex0 = cmdGroup.AddCommandItem2("Copie", -1, "Récupère le code godet", "Copier", 1, "Copier", "", mainItemID1, menuToolbarOption)
-        cmdIndex1 = cmdGroup.AddCommandItem2("Coller", -1, "Colle le code godet", "Coller", 2, "Coller", "", mainItemID2, menuToolbarOption)
+        cmdIndex0 = cmdGroup.AddCommandItem2("Copie", -1, "Récupère le code godet", "Copier", 0, "Copier", "", mainItemID1, menuToolbarOption)
+        cmdIndex1 = cmdGroup.AddCommandItem2("Coller", -1, "Colle le code godet", "Coller", 1, "Coller", "", mainItemID2, menuToolbarOption)
         cmdIndex2 = cmdGroup.AddCommandItem2("Configurateur", -1, "Lance le configurateur", "Configurateur", 2, "Configurateur", "", mainItemID3, menuToolbarOption)
-        cmdIndex3 = cmdGroup.AddCommandItem2("GetSelectPos", -1, "Récupère le numéro de l'élément sélectionné", "GetSelectPos", 0, "GetSelectPos", "", mainItemID4, menuToolbarOption)
+        cmdIndex3 = cmdGroup.AddCommandItem2("GetSelectPos", -1, "Récupère le numéro de l'élément sélectionné", "GetSelectPos", 3, "GetSelectPos", "", mainItemID4, menuToolbarOption)
 
         cmdGroup.HasToolbar = True
         cmdGroup.HasMenu = True

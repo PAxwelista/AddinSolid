@@ -78,7 +78,7 @@ Public Class PartEventHandler
 
     Overrides Function AttachEventHandlers() As Boolean
         AddHandler iPart.DestroyNotify, AddressOf Me.PartDoc_DestroyNotify
-        AddHandler iPart.NewSelectionNotify, AddressOf Me.PartDoc_NewSelectionNotify
+        AddHandler IPart.NewSelectionNotify, AddressOf Me.PartDoc_NewSelectionNotify
         ConnectModelViews()
     End Function
 

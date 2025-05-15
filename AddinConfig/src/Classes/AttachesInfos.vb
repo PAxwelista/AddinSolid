@@ -1,19 +1,16 @@
 ﻿
-Imports Microsoft.Office.Interop.Excel
+Imports BiblioIEV
 Public Class AttachesInfosTuyauGraissage
 
     Private indexMachine As Integer = -1
     Private choixMachineForm As ChoixMachineTuyauGraissage
-    Private sizeTab As Integer
-    Private sizeColumn As Integer
     Private blocEqui As Boolean
     Private graissage As String
     Private attDirect As Boolean
 
-    Private xlAp As Application
-    Private xlWb As Workbook
-    Private xlWs As Worksheet
-    Private dataRange As Range
+    Private allValues As Object(,)
+
+    Private excelReader As New ReadExcel
 
 
     Public Sub New()
@@ -25,16 +22,9 @@ Public Class AttachesInfosTuyauGraissage
 
     Private Sub Initialize()
 
-        xlAp = New Application
-        xlWb = xlAp.Workbooks.Open("T:\Commun\B.E\Cinématique\Tableau attaches machines.xlsx")
-        xlWs = xlWb.Sheets("Feuil1")
+        allValues = excelReader.GetExcelTab("T:\Commun\B.E\Cinématique\Tableau attaches machines.xlsx", "Feuil1")
 
-        sizeTab = xlWs.Cells(xlWs.Rows.Count, 1).End(XlDirection.xlUp).Row
-        sizeColumn = xlWs.Cells(1, xlWs.Columns.Count).End(XlDirection.xlToLeft).Column
-
-        dataRange = xlWs.Range(xlWs.Cells(2, 1), xlWs.Cells(sizeTab, sizeColumn))
-
-        choixMachineForm = New ChoixMachineTuyauGraissage(dataRange.Resize(, 3).Value2)
+        choixMachineForm = New ChoixMachineTuyauGraissage(allValues)
 
         choixMachineForm.ShowDialog()
 
@@ -44,7 +34,7 @@ Public Class AttachesInfosTuyauGraissage
 
         attDirect = choixMachineForm.CheckBoxAD.Checked
 
-        indexMachine = getIndexTabMachine(choixMachineForm.ListBoxMarque.SelectedItem, choixMachineForm.ListBoxModele.SelectedItem, choixMachineForm.ListBoxVersion.SelectedItem)
+        indexMachine = GetIndexTabMachine(choixMachineForm.ListBoxMarque.SelectedItem, choixMachineForm.ListBoxModele.SelectedItem, choixMachineForm.ListBoxVersion.SelectedItem)
 
 
     End Sub
@@ -57,7 +47,31 @@ Public Class AttachesInfosTuyauGraissage
 
         Else
 
-            Return dataRange.Value2(indexMachine, index)
+            Return allValues(indexMachine, index)  ' it Must be good, try it
+
+        End If
+
+
+
+    End Function
+
+    Public Function GetSelectColumnValues(beginIndex As Integer, endIndex As Integer) As String
+
+        Dim columnValues As String = ""
+
+        If indexMachine < 0 Then
+
+            Return ""
+
+        Else
+
+            For i As Integer = beginIndex To endIndex
+
+                columnValues &= If(i = beginIndex, "", ";") & allValues(indexMachine, i) ' it Must be good, try it
+
+            Next
+
+            Return columnValues
 
         End If
 
@@ -84,13 +98,13 @@ Public Class AttachesInfosTuyauGraissage
 
     Private Function GetIndexTabMachine(Marque As Object, modele As Object, version As Object) As Integer
 
-        Call replaceNullToString(Marque)
-        Call replaceNullToString(modele)
-        Call replaceNullToString(version)
+        Call ReplaceNullToString(Marque)
+        Call ReplaceNullToString(modele)
+        Call ReplaceNullToString(version)
 
-        For i As Integer = 1 To sizeTab - 1
+        For i As Integer = 1 To allValues.GetLength(0)
 
-            If dataRange.Value2(i, 1) = Marque And dataRange.Value2(i, 2) = modele And dataRange.Value2(i, 3) = version Then
+            If allValues(i, 1) = Marque And allValues(i, 2) = modele And allValues(i, 3) = version Then ' good but need a try
 
                 Return i
                 Exit Function
@@ -104,31 +118,5 @@ Public Class AttachesInfosTuyauGraissage
     End Function
 
 
-    Sub ReleaseObject(ByVal obj As Object)
-        Try
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
-            obj = Nothing
-        Catch ex As Exception
-            obj = Nothing
-        Finally
-            GC.Collect()
-        End Try
-    End Sub
 
-    Protected Overrides Sub Finalize()
-        Try
-
-            xlWb.Close(False)
-            xlAp.Quit()
-            ReleaseObject(xlWs)
-            ReleaseObject(xlWb)
-            ReleaseObject(xlAp)
-
-        Finally
-
-            MyBase.Finalize()
-
-        End Try
-
-    End Sub
 End Class

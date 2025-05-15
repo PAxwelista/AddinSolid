@@ -3,7 +3,9 @@ Imports System.Linq
 Imports System.Collections.Generic
 Public Class CaisseDI
     Inherits Caisse
-    Private ReadOnly _infosGodDI As New InfosGodetsDI
+    Private _infosGodDI As InfosGodetsDI
+    Private ReadOnly lengthDI150 As String() = {"2000", "2170", "2300", "2350", "2400", "2500", "2550", "2600", "2650", "v", "2750", "2900", "3000", "3100"}
+    Private ReadOnly lengthDI200 As String() = {"2400", "2500", "2600", "2650", "2696", "2750", "2800", "2900", "3000", "3100", "3200", "3300", "3400", "3500"}
 
     Private _caissonRal As Boolean
 
@@ -12,13 +14,15 @@ Public Class CaisseDI
         MyBase.New(swModelDoc, swDimension, possibleClasse)
     End Sub
 
-    Protected Overrides Sub AskUserForDim()
+    Protected Overrides Function AskUserForDim() As Boolean
+
+        _infosGodDI = New InfosGodetsDI(If(_classe.GetName = "151" Or _classe.GetName = "160L", lengthDI150, lengthDI200))
 
         _infosGodDI.ComboBoxClasse.Text = If(_classe IsNot Nothing, _classe.GetName, "")
 
         For Each classe In _possibleClasse
 
-            _infosGodDI.ComboBoxClasse.Items.Add(classe.getName)
+            _infosGodDI.ComboBoxClasse.Items.Add(classe.GetName)
 
         Next classe
 
@@ -56,7 +60,9 @@ Public Class CaisseDI
 
         _infosGodDI.ShowDialog()
 
-        _classe = _possibleClasse.FirstOrDefault(Function(e) e.getName = _infosGodDI.ComboBoxClasse.Text)
+        If _infosGodDI.Annuler = True Then Return False
+
+        _classe = _possibleClasse.FirstOrDefault(Function(e) e.GetName = _infosGodDI.ComboBoxClasse.Text)
         _length = ReplaceRoundLg(_infosGodDI.largeur, {"2696"}, {"2700"})
         _deflecteur = _infosGodDI.deflecteur
         _caisson = _infosGodDI.caisson
@@ -66,33 +72,35 @@ Public Class CaisseDI
         _angPos = _infosGodDI.angPos
         _caissonRal = _infosGodDI.caissonRallonge
 
-    End Sub
+        Return True
+
+    End Function
 
     Protected Overrides Sub ChangeCode()
 
 
-        _tabCode(1) = _infosGodDI.largeur / 1000
+        _tabCode(1) = _infosGodDI.largeur
         _tabCode(2) = CStr(_infosGodDI.largeur)
-        _tabCode(3) = _infosGodDI.entraxeButee / 1000
+        _tabCode(3) = GetCenterAxisRubberStop(_length)
 
 
         _tabCode(7) = _flanc
-        _tabCode(8) = _flanc + If(_deflecteur, " déflecteur", If(_caissonRal, "", " SR"))
+        _tabCode(8) = _flanc + If(_deflecteur, " déflecteur", "") + If(_caissonRal, "", " SR")
         _tabCode(9) = _flanc
 
         _tabCode(13) = If(_deflecteur, "Déflecteur", "Défaut")
-        _tabCode(10) = Not _deflecteur
-        _tabCode(11) = Not _deflecteur
-        _tabCode(12) = Not _deflecteur
+        _tabCode(10) = _deflecteur
+        _tabCode(11) = _deflecteur
+        _tabCode(12) = _deflecteur
 
         _tabCode(14) = If(_caisson, "Caisson balancier", "Défaut")
         _tabCode(15) = If(_caisson, "Caisson balancier", "Défaut")
         _tabCode(16) = If(_caisson, "Caisson balancier", "Défaut")
         _tabCode(17) = If(_caisson, "Caisson balancier", "Défaut")
-        _tabCode(18) = Not _caisson
-        _tabCode(19) = Not _caisson
-        _tabCode(20) = Not _caisson
-        _tabCode(28) = Not _caisson
+        _tabCode(18) = _caisson
+        _tabCode(19) = _caisson
+        _tabCode(20) = _caisson
+        _tabCode(28) = _caisson
 
         _tabCode(22) = If(_caissonRal, "Défaut", "Sans retour")
         _tabCode(23) = If(_caissonRal, "Défaut", "Sans retour")
@@ -101,11 +109,11 @@ Public Class CaisseDI
         _tabCode(24) = _classe.getCylinderIn
         _tabCode(25) = _classe.getCylinderOut
         _tabCode(26) = _classe.getHolesCenterDist
-        _tabCode(27) = _classe.getAngle
+        _tabCode(27) = _classe.GetAngle
 
 
-        _tabCode(5) = _angPos * Math.PI / 180
-        _tabCode(6) = _angDos * Math.PI / 180
+        _tabCode(5) = _angPos
+        _tabCode(6) = _angDos
 
     End Sub
 
@@ -123,9 +131,71 @@ Public Class CaisseDI
         If Not MyBase.GetBucketDim() Then Return False
 
         _classe = _possibleClasse.FirstOrDefault(Function(e) e.getHolesCenterDist = ConvertToNumb(_tabCode(26)))
-        _caissonRal = False
+        _caissonRal = Right(_tabCode(8), 2) <> "SR"
+
+        _length = CDbl(_tabCode(1))
+
+        _deflecteur = CBool(_tabCode(10))
+
+        _caisson = CBool(_tabCode(18))
+
+        _flanc = _tabCode(7)
+
+        _volume = New Volume(SearchModelDocByProp(_swModelDoc, "Description", "Volume"))
+
+        _angDos = _tabCode(6)
+
+        _angPos = _tabCode(5)
 
         Return True
+
+    End Function
+
+    Protected Function GetCenterAxisRubberStop(length As String) As String
+        If _classe.GetName = "201" Or _classe.GetName = "211L" Then
+
+            Select Case length
+
+                Case "2400", "2500"
+
+                    Return "1500"
+
+                Case "2600", "2650", "2700", "2750", "2800", "2900"
+
+                    Return "1700"
+
+                Case "3000", "3100", "3200"
+
+                    Return "2000"
+
+                Case "3300", "3400", "3500"
+
+                    Return "2300"
+
+            End Select
+
+        ElseIf _classe.GetName = "151" Or _classe.GetName = "160L" Then
+
+            Select Case length
+
+                Case "2000"
+
+                    Return "1300"
+
+                Case "2170"
+
+                    Return "1500"
+
+                Case "2300", "2350", "2400", "2500", "2550", "2600", "2650", "2700", "2750", "2900", "3000", "3100"
+
+                    Return "1600"
+
+
+            End Select
+
+        End If
+
+        Return ""
 
     End Function
 

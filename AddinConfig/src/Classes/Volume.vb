@@ -18,6 +18,9 @@ Public Class Volume
     Public Function GetLitre() As Integer
 
         If _swVolumeModelDoc IsNot Nothing Then
+
+            If _swVolumeModelDoc.Extension.CreateMassProperty2 Is Nothing Then Return -1
+
             Return Math.Round(_swVolumeModelDoc.Extension.CreateMassProperty2.volume * 1000)
         Else
             Return -1
@@ -26,31 +29,50 @@ Public Class Volume
 
     End Function
 
-    Public Function SetVolume(ByRef swDimension As Dimension, ByVal targetVolume As Double, swModelDoc As ModelDoc2) As Boolean
+    Public Function SetVolume(swDimension As Dimension, ByVal targetVolume As Double, swModelDoc As ModelDoc2) As Boolean
         'Permet de modifier une côtes en paramètre pour atteindre le volume ciblé
 
         Dim targetVolumeM3 As Double
-        Dim currentVolumeM3 As Double
-        Dim increment As Double
-        Dim previousDown As Boolean 'boolean qui permet de savoir si le target est entre deux valeur déjà cherché
-        Dim exitWhile As Boolean
         Dim LoadingForm As New LoadingForm
         Dim currentDim As Double
 
-        previousDown = True
-        exitWhile = False
-        increment = 300
+
         targetVolumeM3 = targetVolume / 1000
 
-        currentDim = swDimension.Value
-
+        currentDim = swDimension.GetValue3(1, "")(0)
         LoadingForm.TopMost = False
+        LoadingForm.TargetVolume.Text = targetVolume
         LoadingForm.Show()
 
+        LoopSetVolume(swModelDoc, LoadingForm, targetVolumeM3, swDimension)
+
+
+        swModelDoc.Extension.ForceRebuildAll()
+
+        LoadingForm.Hide()
+
+        Return True
+
+    End Function
+
+    Function LoopSetVolume(swModelDoc As ModelDoc2, LoadingForm As LoadingForm, targetVolumeM3 As Double, swDimension As Dimension) As Boolean
+
+
+        Dim exitWhile As Boolean
+        Dim currentVolumeM3 As Double
+        Dim increment As Double = 300
+        Dim currentDim As Double = swDimension.GetValue3(1, "")(0)
+        Dim previousDown As Boolean = True
+
+        exitWhile = False
 
         While Not (exitWhile)
 
             currentVolumeM3 = GetLitre() / 1000
+
+            LoadingForm.ActualVolume.Text = currentVolumeM3 * 1000
+
+            LoadingForm.Refresh()
 
             If currentVolumeM3 < 0 Then
 
@@ -59,7 +81,14 @@ Public Class Volume
                 LoadingForm.Hide()
                 Exit Function
 
-            ElseIf currentVolumeM3 - targetVolumeM3 < 0.05 And currentVolumeM3 - targetVolumeM3 >= 0 Then
+            ElseIf increment < 1 Then
+
+                ErrorsHandling.AddError("Lors du calcul du volume, l'incrémentation était inférieur à 1mm. Le volume est potentiellement erroné")
+                Return False
+                LoadingForm.Hide()
+                Exit Function
+
+            ElseIf (currentVolumeM3 - targetVolumeM3 < 0.05 And currentVolumeM3 - targetVolumeM3 >= 0) Then
 
                 exitWhile = True
 
@@ -95,7 +124,6 @@ Public Class Volume
                 currentDim += increment
                 swDimension.SetValue3(currentDim, swSetValueInConfiguration_e.swSetValue_InAllConfigurations, Nothing)
 
-
             End If
 
             swModelDoc.Extension.Rebuild(0)
@@ -103,13 +131,8 @@ Public Class Volume
         End While
 
 
-        swModelDoc.Extension.ForceRebuildAll()
-
-        LoadingForm.Hide()
-
-        Return True
-
     End Function
+
 
 End Class
 

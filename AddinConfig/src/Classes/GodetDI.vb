@@ -1,10 +1,10 @@
 ﻿Imports SolidWorks.Interop.sldworks
 Imports SolidWorks.Interop.swconst
 
-Public Class DI
+Public Class GodetDI
     Inherits Equipment
 
-    Private _caisse As Caisse
+    Private _caisse As CaisseDI
     Private _swComponentChassis As Component2
     Private _swComponentAttaches As Component2
 
@@ -24,11 +24,14 @@ Public Class DI
     Private _caveeHauteHeigth As String
     Private _graissage As String
     Private _blocEqui As Boolean
+    Private _classe As String
 
 
-    Public Sub New(swApp As SldWorks)
+    Public Sub New(swApp As SldWorks, bucketClass As String)
 
         MyBase.New(swApp)
+
+        _classe = bucketClass
 
 
         If _swModelDoc IsNot Nothing Then
@@ -61,7 +64,7 @@ Public Class DI
         _graissage = infosAttache.GetGraissage
         _blocEqui = infosAttache.GetBlocEqui
 
-        _planAtt = If(_attDirect, infosAttache.GetSelectColumn(19), If(_marqueAtt = "Liebherr", "GC EN 3184", "GC EN 2625"))
+        _planAtt = If(_attDirect, infosAttache.GetSelectColumn(19), If(_marqueAtt = "Liebherr", If(_classe = "150", "GC EN 3003", "GC EN 3184"), If(_classe = "150", "GC EN 2622", "GC EN 2625")))
 
         _caisse.SetBucket()
 
@@ -85,8 +88,6 @@ Public Class DI
 
     Private Function InitializeComponents(comps As Object) As Boolean
 
-
-
         For Each swComponent As Component2 In comps
 
             Dim swModelDocTamp As ModelDoc2 = swComponent.GetModelDoc2
@@ -101,9 +102,9 @@ Public Class DI
 
                 If Left(customProp, 6) = "Caisse" Then
 
-                    _caisse = New CaisseDI(swModelDocTamp, swModelDocTamp.Parameter("D1@Profil godet"), New Generic.List(Of Classe) From {ClassesDIData.GetClasseByName("201"), ClassesDIData.GetClasseByName("211L")})
+                    _caisse = New CaisseDI(swModelDocTamp, swModelDocTamp.Parameter("D1@Profil godet"), If(_classe = "150", New Generic.List(Of Classe) From {ClassesDIData.GetClasseByName("151"), ClassesDIData.GetClasseByName("160L")}, New Generic.List(Of Classe) From {ClassesDIData.GetClasseByName("201"), ClassesDIData.GetClasseByName("211L")}))
 
-                ElseIf Left(customProp, 7) = "Châssis" Then
+                ElseIf Left(customProp, 7) = "Châssis" Or Left(customProp, 7) = "Chassis" Or Left(customProp, 16) = "Ensemble Chassis" Then
 
                     _swComponentChassis = swComponent
 
@@ -135,11 +136,11 @@ Public Class DI
 
                 _swComponentGraiTwin = swComponent
 
-            ElseIf swComponent.Name2 = "GC TU 186-1" Then
+            ElseIf swComponent.Name2 = "GC TU 186-1" Or swComponent.Name2 = "GC TU 185-1" Then
 
                 _swComponentTuyauterie = swComponent
 
-            ElseIf swComponent.Name2 = "GC TU 187-1" Then
+            ElseIf swComponent.Name2 = "GC TU 187-1" Or swComponent.Name2 = "GC TU 188-1" Then
 
                 _swComponentTuyauterieBlocEqui = swComponent
 
@@ -164,6 +165,16 @@ Public Class DI
             ReplaceComp(_swComponentChassis, "C:\PDM\_IEV\03-STANDARDS\IEV\GC EN 2212\GC EN 2212.SLDASM")
             ReplaceComp(_swComponentVerin, "C:\PDM\_IEV\03-STANDARDS\IEV\GC VE 49\GC VE 49.SLDASM")
 
+        ElseIf _caisse.GetClasseName = "151" Then
+
+            ReplaceComp(_swComponentChassis, "C:\PDM\_IEV\03-STANDARDS\IEV\GC EN 1035 Bis\GC EN 1035 Bis.SLDASM")
+            ReplaceComp(_swComponentVerin, "C:\PDM\_IEV\03-STANDARDS\IEV\GC VE 52\GC VE 52.SLDASM")
+
+        ElseIf _caisse.GetClasseName = "160L" Then
+
+            ReplaceComp(_swComponentChassis, "C:\PDM\_IEV\03-STANDARDS\IEV\GC EN 1305\GC EN 1305.SLDASM")
+            ReplaceComp(_swComponentVerin, "C:\PDM\_IEV\03-STANDARDS\IEV\GC VE 53\GC VE 53.SLDASM")
+
         End If
 
     End Sub
@@ -185,10 +196,10 @@ Public Class DI
 
     Private Sub ChangeTransportDims()
 
-        If _transportHeigth <> "-" And _transportHeigth = "" And _transportHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportHeigth, "D2@Transport")
-        If _caisse.GetAngDos <> "-" And _caisse.GetAngDos = "" And _caisse.GetAngDos IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caisse.GetAngDos, "D2@Cavée haute")
-        If _caveeHauteHeigth <> "-" And _caveeHauteHeigth = "" And _caveeHauteHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caveeHauteHeigth, "D1@Cavée haute")
-        If _transportAngle <> "-" And _transportAngle = "" And _transportAngle IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportAngle, "D1@Transport")
+        If _transportHeigth <> "-" And _transportHeigth <> "" And _transportHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportHeigth, "D2@Transport")
+        If _caisse.GetAngDos <> "-" And _caisse.GetAngDos <> "" And _caisse.GetAngDos IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caisse.GetAngDos, "D2@Cavée haute")
+        If _caveeHauteHeigth <> "-" And _caveeHauteHeigth <> "" And _caveeHauteHeigth IsNot Nothing Then ChangeSketchDim(_swModelDoc, _caveeHauteHeigth, "D1@Cavée haute")
+        If _transportAngle <> "-" And _transportAngle <> "" And _transportAngle IsNot Nothing Then ChangeSketchDim(_swModelDoc, _transportAngle, "D1@Transport")
 
     End Sub
 

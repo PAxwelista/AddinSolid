@@ -1,4 +1,5 @@
 ﻿Imports SolidWorks.Interop.sldworks
+Imports SolidWorks.Interop.swconst
 Public Class Paste
     Inherits CopyPaste
 
@@ -11,8 +12,6 @@ Public Class Paste
         Dim codeGodet As String
         Dim typeGodet As EquipmentCode
         Dim tableau() As String
-
-
 
         If initialCode = "" Then
 
@@ -66,19 +65,21 @@ Public Class Paste
 
             ElseIf code = 2 Then
 
-                Call LoadState(codeValue, (tableau(i)))
+                If tableau(i) <> "" And tableau(i) <> "-" Then Call LoadState(codeValue, (tableau(i)))
 
             ElseIf code = 3 Then
 
                 Call LoadStateFeat(codeValue, (tableau(i)))
+
+            ElseIf code = 5 Then
+
+                Call LoadHoleFastenerSize(codeValue, (tableau(i)))
 
             End If
 
         Next i
 
         Return True
-
-
 
     End Function
 
@@ -103,19 +104,26 @@ Public Class Paste
 
         End If
 
-        swDimension.SystemValue = cote
+        If Not IsNumeric(cote) Then
+
+            ErrorsHandling.AddError("La côte utilisé pour " + valeurPrimaire + " n'est pas numérique")
+            Exit Sub
+
+        End If
+
+        swDimension.SetValue3(cote, 1, "")
 
     End Sub
 
-    Private Sub LoadConfig(ByVal nomPiece As String, ByVal config As String)
+    Private Sub LoadConfig(ByVal compPos As String, ByVal config As String)
 
         Dim swComp As Component2
 
-        swComp = SearchComponent(nomPiece)
+        swComp = SearchComponent(compPos)
 
         If swComp Is Nothing Then
 
-            ErrorsHandling.AddError("Aucune pièce avec le nom " + nomPiece + " n'existe dans l'assemblage")
+            ErrorsHandling.AddError("Aucune pièce avec la position " + compPos + " n'existe dans l'assemblage")
             Exit Sub
 
         End If
@@ -123,26 +131,26 @@ Public Class Paste
         swComp.ReferencedConfiguration = config
 
     End Sub
-    Private Sub LoadState(ByVal nomPiece As String, ByVal state As Boolean)
+    Private Sub LoadState(ByVal compPos As String, ByVal state As Boolean)
 
         Dim swComp As Component2
 
-        swComp = SearchComponent(nomPiece)
+        swComp = SearchComponent(compPos)
 
         If swComp Is Nothing Then
 
-            ErrorsHandling.AddError("Aucune pièce avec le nom " & nomPiece & " n'existe dans l'assemblage")
+            ErrorsHandling.AddError("Aucune pièce avec la position " & compPos & " n'existe dans l'assemblage")
             Exit Sub
 
         End If
 
         If state Then
 
-            swComp.SetSuppression2(0)
+            swComp.SetSuppression2(2)
 
         ElseIf Not state Then
 
-            swComp.SetSuppression2(2)
+            swComp.SetSuppression2(0)
 
         End If
 
@@ -161,15 +169,68 @@ Public Class Paste
 
         End If
 
-        If state Then
+        If swFeat.GetTypeName2 = "FtrFolder" Then 'Si le Feat est un Dossier
 
-            swFeat.SetSuppression2(0, 1, 0)
+            _swModelDoc.Extension.SelectByID2(swFeat.Name, UCase(swFeat.GetTypeName2), 0, 0, 0, False, 0, Nothing, 0)
 
-        ElseIf Not state Then
+            If state Then
 
-            swFeat.SetSuppression2(2, 1, 0)
+                _swModelDoc.EditUnsuppress2()
+
+            ElseIf Not state Then
+
+                _swModelDoc.EditSuppress2()
+
+
+            End If
+
+        Else
+
+            If state Then
+
+                swFeat.SetSuppression2(2, 1, 0)
+
+            ElseIf Not state Then
+
+                swFeat.SetSuppression2(0, 1, 0)
+
+            End If
 
         End If
+
+    End Sub
+
+    Private Sub LoadHoleFastenerSize(ByVal nomFeat As String, ByVal fastener As String)
+
+        Dim swFeat As Feature
+        Dim swWizardHole As WizardHoleFeatureData2
+
+        swFeat = SearchFeat(nomFeat)
+
+        If swFeat Is Nothing Then
+
+            ErrorsHandling.AddError("""" + nomFeat + """ n'existe pas dans cet assemblage")
+            Exit Sub
+
+        End If
+
+        If swFeat.GetTypeName2 <> "HoleWzd" Then
+
+            ErrorsHandling.AddError("""" + nomFeat + """ n'est pas un trou avec assistance de perçage")
+            Exit Sub
+
+        End If
+
+        swWizardHole = swFeat.GetDefinition
+
+        If Not swWizardHole.ChangeStandard(swWzdHoleStandards_e.swStandardISO, swWzdHoleStandardFastenerTypes_e.swStandardISOTappedHole, fastener) Then
+
+            ErrorsHandling.AddError("""" + nomFeat + """ n'a pas reussi le changement de taraudage")
+            Exit Sub
+
+        End If
+
+        swFeat.ModifyDefinition(swWizardHole, _swModelDoc, Nothing)
 
     End Sub
 

@@ -65,7 +65,7 @@
 
             Case 1
 
-                For i As Integer = 1 To machines.GetLength(0)
+                For i As Integer = 2 To machines.GetLength(0)
 
                     Call AddInTab(result, machines(i, 1).ToString)
 
@@ -73,7 +73,7 @@
 
             Case 2
 
-                For i As Integer = 1 To machines.GetLength(0)
+                For i As Integer = 2 To machines.GetLength(0)
 
                     If IsNullOrEmpty(ListBoxMarque.SelectedItem) Then
 
@@ -93,7 +93,7 @@
 
             Case 3
 
-                For i As Integer = 1 To machines.GetLength(0)
+                For i As Integer = 2 To machines.GetLength(0)
 
                     If IsNullOrEmpty(ListBoxMarque.SelectedItem) And IsNullOrEmpty(ListBoxModele.SelectedItem) Then
 
@@ -139,4 +139,7 @@
 
     End Function
 
+    Private Sub ChoixMachineTuyauGraissage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

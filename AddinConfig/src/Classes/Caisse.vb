@@ -34,9 +34,11 @@ Public MustInherit Class Caisse
 
     Public Function SetBucket() As Boolean
 
-        AskUserForDim()
+        If AskUserForDim() = False Then Return False
 
         PasteCode()
+
+        Return True
 
     End Function
 
@@ -77,7 +79,7 @@ Public MustInherit Class Caisse
 
     End Function
 
-    Protected MustOverride Sub AskUserForDim()
+    Protected MustOverride Function AskUserForDim() As Boolean
 
     Protected Overridable Sub PasteCode()
 
@@ -109,20 +111,6 @@ Public MustInherit Class Caisse
             Return False
 
         End If
-
-        _length = CDbl(_tabCode(1) * 1000)
-
-        _deflecteur = Not CBool(_tabCode(10))
-
-        _caisson = Not CBool(_tabCode(18))
-
-        _flanc = _tabCode(7)
-
-        _volume = New Volume(SearchModelDocByProp(_swModelDoc, "Description", "Volume"))
-
-        _angDos = Math.Round(_tabCode(6) * 180 / Math.PI)
-
-        _angPos = Math.Round(_tabCode(5) * 180 / Math.PI)
 
         Return True
 

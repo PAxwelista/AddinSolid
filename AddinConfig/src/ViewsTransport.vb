@@ -53,6 +53,7 @@ Module ViewsTransport
 
         End If
         If angleTransport < 0 Or angleTransport > 360 Then
+
             MsgBox("la valeur doit être comprise entre 0 et 360")
             Exit Sub
         ElseIf angleTransport >= 0 And angleTransport <= 360 Then

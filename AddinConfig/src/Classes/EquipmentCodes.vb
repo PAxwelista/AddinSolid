@@ -31,7 +31,7 @@
             }
          )
 
-        Dim CodeDI_201 As New EquipmentCode("DI_201", {
+        Dim CodeDI_201 As New EquipmentCode("DI", {
             Tuple.Create(0, "D1@Dessus"),
             Tuple.Create(1, "26"),
             Tuple.Create(0, "D6@Dessus"),
@@ -64,7 +64,7 @@
          )
 
         Dim CodeCaisseGP_HD_XHD As New EquipmentCode("Caisse GP-HD-XHD", {
-            Tuple.Create(0, "D4@Dessous caisse"),
+            Tuple.Create(0, "D3@Dessous caisse"),
             Tuple.Create(1, "15"),
             Tuple.Create(0, "D2@Profil godet"),
             Tuple.Create(0, "D6@Profil godet"),
@@ -93,8 +93,51 @@
          )
 
         Dim CodeAttachesGP_HD_XHD As New EquipmentCode("Attaches GP-HD-XHD", {
-            Tuple.Create(3, "Composant sym. général"),
-            Tuple.Create(3, "Sym. Develon")
+            Tuple.Create(0, "D8@Position et Ø trous"),
+            Tuple.Create(0, "D4@Position et Ø trous"),
+            Tuple.Create(0, "D5@Position et Ø trous"),
+            Tuple.Create(0, "D6@Position et Ø trous"),
+            Tuple.Create(0, "D7@Position et Ø trous"),
+            Tuple.Create(0, "D1@Position et Ø trous"),
+            Tuple.Create(0, "D38@Profil général"),
+            Tuple.Create(0, "D65@Profil général"),
+            Tuple.Create(0, "D21@Profil général"),
+            Tuple.Create(0, "D5@Profil général"),
+            Tuple.Create(0, "D60@Profil général"),
+            Tuple.Create(0, "D35@Profil général"),
+            Tuple.Create(3, "Butée type Liebherr"),
+            Tuple.Create(3, "Butée type Develon"),
+            Tuple.Create(0, "D4@Dessous attaches"),
+            Tuple.Create(0, "D13@Dessous attaches"),
+            Tuple.Create(0, "D2@Dessous attaches"),
+            Tuple.Create(0, "D3@Dessous attaches"),
+            Tuple.Create(0, "D8@Dessous attaches"),
+            Tuple.Create(0, "D14@Dessous attaches"),
+            Tuple.Create(0, "D1@Dessous attaches"),
+            Tuple.Create(0, "D6@Dessous attaches"),
+            Tuple.Create(0, "D7@Dessous attaches"),
+            Tuple.Create(0, "D25@Profil général"),
+            Tuple.Create(0, "D24@Profil général"),
+            Tuple.Create(0, "D5@Dessous attaches"),
+            Tuple.Create(0, "D16@Dessous attaches"),
+            Tuple.Create(2, "28"),
+            Tuple.Create(2, "29"),
+            Tuple.Create(2, "2"),
+            Tuple.Create(2, "3"),
+            Tuple.Create(3, "Bossage joint int."),
+            Tuple.Create(3, "Sym. Liebherr"),
+            Tuple.Create(3, "Sym. Develon"),
+            Tuple.Create(3, "Sym. Volvo"),
+            Tuple.Create(1, "1"),
+            Tuple.Create(1, "2"),
+            Tuple.Create(1, "3"),
+            Tuple.Create(2, "4"),
+            Tuple.Create(3, "Sym goutte d'eau central int"),
+            Tuple.Create(2, "5"),
+            Tuple.Create(3, "Sym goutte d'eau central ext"),
+            Tuple.Create(2, "6"),
+            Tuple.Create(2, "7"),
+            Tuple.Create(5, "Trou taraudé")
             }
         )
 
@@ -117,6 +160,7 @@
         FenetreChoixCopier.ShowDialog()
 
         _typeGodet = GetCodeWithType(FenetreChoixCopier.ComboBoxType.SelectedItem)
+
     End Function
 
     Public Function GetSelected() As EquipmentCode
@@ -145,5 +189,11 @@
 
     End Function
 
+
+    Public Function SelectCodeWithType(type As String) As Boolean
+
+        _typeGodet = GetCodeWithType(type)
+
+    End Function
 
 End Class
